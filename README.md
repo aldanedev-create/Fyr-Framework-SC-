@@ -1,6 +1,6 @@
 # Fyr
 
-Fyr is a small, CDN-first framework for adding reactive behavior to ordinary HTML. Define an application in JavaScript, use Fyr directives in its markup, and mount it—no framework-specific build step is required for browser use.
+Fyr.js is a small, CDN-first framework for adding reactive behavior to ordinary HTML. Define an application in JavaScript, use Fyr directives in its markup, and mount it—no framework-specific build step is required for browser use.
 
 > Fyr is currently a 0.1.2 . Treat public APIs as evolving, keep templates trusted, and test upgrades before deploying them.
 
