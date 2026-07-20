@@ -1,4 +1,5 @@
 # Getting started
+# fyr.js website: https://fyrjsorg.vercel.app/
 
 ## 1. Mark an application root
 
