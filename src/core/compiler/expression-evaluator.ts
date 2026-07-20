@@ -383,7 +383,13 @@ function createEvaluationScope(
     }
   }
 
-  // Add extras
+  // Add values supplied by structural directives such as fyr-for.
+  for (const [key, value] of Object.entries(context.extra || {})) {
+    scope[key] = value;
+  }
+
+  // Add explicit evaluation extras. These take precedence over context extras
+  // for per-event values such as $event.
   for (const [key, value] of Object.entries(extras)) {
     scope[key] = value;
   }

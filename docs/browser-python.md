@@ -9,13 +9,13 @@ For the most direct integration, import PyodideLoader and let it load Pyodide fr
 ~~~html
 <script type="module">
   import { PyodideLoader } from
-    "https://cdn.jsdelivr.net/npm/fyr-framework@0.1.0/dist/fyr-python.esm.js";
+  "https://cdn.jsdelivr.net/npm/@aldane-dev-create/fyr@0.1.2/dist/fyr-python.esm.js";
 
   const python = new PyodideLoader();
   await python.load();
 
   const result = await python.run("sum([1, 2, 3])");
-  console.log(result);
+  console.log(result); // 6
 </script>
 ~~~
 
@@ -35,9 +35,23 @@ await python.load();
 
 The module's default configuration targets Pyodide 0.27.7. When self-hosting, keep the module URL and index URL from the same Pyodide release.
 
+## Install a supported Pyodide package
+
+`PyodideLoader` delegates supported package loading to Pyodide:
+
+~~~js
+await python.loadPackages(["numpy"]);
+const average = await python.run(
+  "import numpy as np\\nfloat(np.array([1, 2, 3]).mean())"
+);
+console.log(average); // 2
+~~~
+
 ## PythonPlugin status
 
-The bundle also exports PythonPlugin and PythonRuntime for plugin-oriented integrations. They are lower-level surfaces in 0.1.0 and require a Fyr plugin context. Prefer PyodideLoader for a standalone browser integration until the core package offers a stable plugin installation API.
+The bundle also exports PythonPlugin and PythonRuntime for plugin-oriented integrations. Do not document `Fyr.python.*` as a standalone setup API in 0.1.2: importing the core and Python bundles does not initialize that service. Prefer PyodideLoader for a working browser integration.
+
+For a concise CDN reference, see [CDN usage](cdn.md#browser-python).
 
 ## Security
 

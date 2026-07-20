@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fyr Counter</title><link rel="stylesheet" href="./styles.css"></head>
+<body><main fyr-app="counter-demo" class="counter-card">
+  <p class="eyebrow">Fyr fundamentals</p><h1 fyr-text="headline"></h1>
+  <output class="count" fyr-text="count"></output><p fyr-text="message"></p>
+  <div class="controls"><button fyr-click="change(-step)">−</button><button fyr-click="reset()">Reset</button><button fyr-click="change(step)">+</button></div>
+  <label>Step size <input type="number" min="1" fyr-model="step"></label>
+  <p class="hint" fyr-show="isMilestone">Milestone reached — nice work.</p>
+  <section><h2>Recent changes</h2><ol><template fyr-for="entry in history"><li fyr-text="entry"></li></template></ol></section>
+</main><script type="module" src="./app.js"></script></body></html>

@@ -1,32 +1,47 @@
 {
-  "name": "fyr-framework",
-  "version": "0.1.0",
+  "name": "@aldane-dev-create/fyr",
+  "version": "0.1.2",
   "description": "CDN-first HTML framework with Python and Rust WebAssembly browser plugins",
   "type": "module",
   "main": "dist/fyr.js",
   "module": "dist/fyr.esm.js",
-  "unpkg": "dist/fyr.min.js",
-  "jsdelivr": "dist/fyr.min.js",
+  "unpkg": "dist/fyr.esm.js",
+  "jsdelivr": "dist/fyr.esm.js",
   "types": "dist/core/index.d.ts",
   "exports": {
-    ".": {
-      "types": "./dist/core/index.d.ts",
-      "import": "./dist/fyr.esm.js",
-      "require": "./dist/fyr.js"
-    },
-    "./python": {
-      "import": "./dist/fyr-python.esm.js",
-      "require": "./dist/fyr-python.js"
-    },
-    "./wasm": {
-      "import": "./dist/fyr-wasm.esm.js",
-      "require": "./dist/fyr-wasm.js"
-    },
-    "./router": {
-      "import": "./dist/fyr-router.esm.js",
-      "require": "./dist/fyr-router.js"
-    }
+  ".": {
+    "types": "./dist/core/index.d.ts",
+    "import": "./dist/fyr.esm.js",
+    "require": "./dist/fyr.js"
   },
+  "./python": {
+    "types": "./dist/python/index.d.ts",
+    "import": "./dist/fyr-python.esm.js",
+    "require": "./dist/fyr-python.js"
+  },
+  "./wasm": {
+    "types": "./dist/wasm/index.d.ts",
+    "import": "./dist/fyr-wasm.esm.js",
+    "require": "./dist/fyr-wasm.js"
+  },
+  "./router": {
+    "types": "./dist/router/index.d.ts",
+    "import": "./dist/fyr-router.esm.js",
+    "require": "./dist/fyr-router.js"
+  },
+  "./socket": {
+    "types": "./dist/socket/index.d.ts",
+    "import": "./dist/fyr-socket.esm.js",
+    "require": "./dist/fyr-socket.js"
+  },
+  "./ui": {
+    "types": "./dist/ui/index.d.ts",
+    "import": "./dist/fyr-ui.esm.js",
+    "require": "./dist/fyr-ui.js"
+  },
+  "./ui.css": "./dist/fyr-ui.css",
+  "./fyr-engine.wasm": "./dist/fyr-engine.wasm"
+},
   "files": [
     "dist",
     "README.md",

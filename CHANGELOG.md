@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Nothing yet.
+
+## [0.1.2] - 2026-07-20
+
+### Added
+- Complete working implementations for every example directory, including a Flask mini-classroom application.
+- API reference, example guide, and classroom deployment guidance.
+
+### Fixed
+- Computed values now update when their reactive dependencies change.
+
+## [0.1.1] - 2026-07-20
+
 ### Added
 - Complete README and user documentation for the current 0.1.0 runtime
 - Initial project setup

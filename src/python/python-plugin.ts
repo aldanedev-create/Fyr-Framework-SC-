@@ -46,7 +46,7 @@ const DEFAULT_OPTIONS: PythonPluginOptions = {
  */
 export class PythonPlugin implements Plugin {
   public readonly name = 'python';
-  public readonly version = '0.1.0';
+  public readonly version = '0.1.2';
   public readonly description = 'Browser Python support via Pyodide';
   public readonly dependencies: string[] = [];
 

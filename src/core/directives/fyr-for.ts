@@ -212,8 +212,9 @@ export const fyrForDirective: DirectiveHandler = (
     const directives = getAllDirectives();
     scanDOM(clone, cloneContext, directives);
 
-    // Get the first child (the actual element)
-    const firstChild = clone.firstChild;
+    // Get the first element (the actual rendered item). `firstChild` can be
+    // a whitespace text node when the template is formatted across lines.
+    const firstChild = clone.firstElementChild;
     if (!firstChild) {
       const fallback = document.createElement('div');
       fallback.textContent = 'Empty template';

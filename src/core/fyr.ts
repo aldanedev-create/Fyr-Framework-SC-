@@ -33,7 +33,7 @@ import type {
  */
 export class Fyr implements FyrInterface {
   /** Framework version */
-  static readonly version: string = '0.1.0';
+  static readonly version: string = '0.1.2';
 
   /** HTTP client */
   static readonly http = http;

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fyr Classroom</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@aldane-dev-create/fyr@0.1.2/dist/fyr-ui.css">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main fyr-app="fyr-classroom" class="classroom-shell">
+      <header class="topbar">
+        <a class="brand" href="#stream" fyr-click="selectView('stream')">Fyr Classroom</a>
+        <div class="course-label">
+          <span fyr-text="course.code"></span>
+          <strong fyr-text="course.name"></strong>
+        </div>
+        <label class="role-switch">
+          <span>Demo view</span>
+          <select fyr-model="role" fyr-on:change="setRole()">
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+          </select>
+        </label>
+      </header>
+
+      <section class="course-hero">
+        <div>
+          <p class="eyebrow" fyr-text="course.code"></p>
+          <h1 fyr-text="course.name"></h1>
+          <p><span fyr-text="course.teacher"></span> · <span fyr-text="course.period"></span> · <span fyr-text="course.meeting"></span></p>
+        </div>
+        <div class="hero-stats">
+          <article><strong fyr-text="assignmentCount"></strong><span>Assignments</span></article>
+          <article><strong fyr-text="pendingCount"></strong><span>To do</span></article>
+          <article><strong fyr-text="studentCount"></strong><span>Students</span></article>
+        </div>
+      </section>
+
+      <nav class="tabs" aria-label="Classroom sections">
+        <button fyr-click="selectView('stream')" fyr-bind:aria-pressed="isStream">Stream</button>
+        <button fyr-click="selectView('classwork')" fyr-bind:aria-pressed="isClasswork">Classwork</button>
+        <button fyr-click="selectView('people')" fyr-bind:aria-pressed="isPeople">People</button>
+      </nav>
+
+      <section fyr-show="isStream" class="content-grid">
+        <div class="stream-column">
+          <form fyr-show="isTeacher" fyr-submit="publishAnnouncement()" class="composer">
+            <label>Share an announcement
+              <textarea fyr-model="announcementDraft" placeholder="Tell your class what is happening next..."></textarea>
+            </label>
+            <button class="button" type="submit">Post announcement</button>
+          </form>
+
+          <article class="welcome-card" fyr-show="isStudent">
+            <p class="eyebrow">Student view</p>
+            <h2>Welcome, Malia</h2>
+            <p>You have <strong fyr-text="pendingCount"></strong> assignment(s) waiting for you.</p>
+            <button class="button" fyr-click="selectView('classwork')">View classwork</button>
+          </article>
+
+          <div class="section-title"><h2>Class stream</h2><span fyr-text="announcementCount"></span></div>
+          <template fyr-for="announcement in announcements">
+            <article class="announcement-card">
+              <div class="avatar" fyr-text="announcement.author"></div>
+              <div>
+                <h3 fyr-text="announcement.author"></h3>
+                <time fyr-text="announcement.created_at"></time>
+                <p fyr-text="announcement.message"></p>
+              </div>
+            </article>
+          </template>
+        </div>
+        <aside class="up-next">
+          <p class="eyebrow">Up next</p>
+          <h2>Keep your momentum</h2>
+          <p>Submit the Binary Search Lab before Friday.</p>
+          <button class="button button-secondary" fyr-click="selectView('classwork')">Open assignments</button>
+        </aside>
+      </section>
+
+      <section fyr-show="isClasswork" class="classwork">
+        <div class="section-title classwork-title">
+          <div><p class="eyebrow">Classwork</p><h2>Assignments</h2></div>
+          <button fyr-show="isTeacher" class="button" fyr-click="toggleAssignmentForm()">Create assignment</button>
+        </div>
+
+        <form fyr-show="showAssignmentForm" fyr-submit="createAssignment()" class="assignment-form">
+          <label>Title<input fyr-model="newAssignmentTitle" placeholder="e.g. Sorting challenge"></label>
+          <label>Topic<input fyr-model="newAssignmentTopic" placeholder="e.g. Algorithms"></label>
+          <label>Due date<input type="date" fyr-model="newAssignmentDue"></label>
+          <label>Points<input type="number" min="1" max="100" fyr-model="newAssignmentPoints"></label>
+          <label class="wide">Instructions<textarea fyr-model="newAssignmentDescription" placeholder="Describe what students should do."></textarea></label>
+          <div class="form-actions"><button type="button" class="button button-secondary" fyr-click="toggleAssignmentForm()">Cancel</button><button class="button" type="submit">Publish assignment</button></div>
+        </form>
+
+        <div class="filters">
+          <label>Search<input fyr-model="assignmentSearch" fyr-on:input="filterAssignments()" placeholder="Title or topic"></label>
+          <label>Status<select fyr-model="assignmentFilter" fyr-on:change="filterAssignments()"><option value="all">All work</option><option value="assigned">Assigned</option><option value="submitted">Submitted</option><option value="returned">Returned</option></select></label>
+          <span><strong fyr-text="visibleAssignmentCount"></strong> shown</span>
+        </div>
+
+        <div class="assignment-list">
+          <template fyr-for="assignment in visibleAssignments">
+            <article class="assignment-card" fyr-bind:data-status="assignment.status">
+              <div class="assignment-main">
+                <p class="eyebrow" fyr-text="assignment.topic"></p>
+                <h3 fyr-text="assignment.title"></h3>
+                <p fyr-text="assignment.description"></p>
+                <small>Due <span fyr-text="assignment.due"></span> · <span fyr-text="assignment.points"></span> points</small>
+              </div>
+              <div class="assignment-actions">
+                <span class="status-pill" fyr-text="assignment.status"></span>
+                <span fyr-show="assignment.grade">Score: <strong fyr-text="assignment.grade"></strong>/<span fyr-text="assignment.points"></span></span>
+                <button fyr-show="isStudent" class="button" fyr-click="submitAssignment(assignment.id)">Turn in</button>
+                <button fyr-show="isTeacher" class="button button-secondary" fyr-click="returnFullCredit(assignment.id)">Return full credit</button>
+              </div>
+            </article>
+          </template>
+        </div>
+        <p class="empty-state" fyr-show="hasNoAssignments">No assignments match the current filters.</p>
+      </section>
+
+      <section fyr-show="isPeople" class="people-section">
+        <div class="section-title"><div><p class="eyebrow">People</p><h2>Class roster</h2></div><span fyr-text="studentCount"></span></div>
+        <div class="people-grid"><template fyr-for="student in students"><article class="person-card"><div class="avatar" fyr-text="student.initials"></div><div><h3 fyr-text="student.name"></h3><p>Student</p></div></article></template></div>
+      </section>
+    </main>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

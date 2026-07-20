@@ -46,7 +46,7 @@ const DEFAULT_OPTIONS: WasmPluginOptions = {
  */
 export class WasmPlugin implements Plugin {
   public readonly name = 'wasm';
-  public readonly version = '0.1.0';
+  public readonly version = '0.1.2';
   public readonly description = 'Browser WebAssembly support';
   public readonly dependencies: string[] = [];
 

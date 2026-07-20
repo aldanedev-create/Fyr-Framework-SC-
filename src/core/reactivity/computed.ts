@@ -12,46 +12,14 @@ import { reactive } from './reactive';
  * @returns Computed value object with value property
  */
 export function computed<T>(getter: () => T): { value: T } {
-  let value: T;
-  let isDirty = true;
+  // A reactive holder lets consumers track `computed.value` just like ordinary
+  // state. The effect tracks getter dependencies and publishes a new value when
+  // any of them change.
+  const computedObj = reactive({ value: undefined as T });
 
-  // Create effect that updates when dependencies change
-  const effect = createEffect(() => {
-    // This runs when dependencies change
-    isDirty = true;
-  }, { lazy: true });
-
-  // Create getter that computes on access
-  const computedObj = {
-    get value(): T {
-      if (isDirty) {
-        // Run the getter with effect tracking
-        const trackedGetter = () => {
-          value = getter();
-        };
-
-        // Use effect to track dependencies
-        effect();
-
-        // Now compute the actual value with tracking
-        // We need to re-run the getter with active effect
-        const currentEffect = effect;
-        const prevEffect = (globalThis as any).__fyrActiveEffect;
-
-        // Temporarily set active effect for tracking
-        (globalThis as any).__fyrActiveEffect = currentEffect;
-
-        try {
-          value = getter();
-        } finally {
-          (globalThis as any).__fyrActiveEffect = prevEffect;
-        }
-
-        isDirty = false;
-      }
-      return value;
-    },
-  };
+  createEffect(() => {
+    computedObj.value = getter();
+  });
 
   return computedObj;
 }

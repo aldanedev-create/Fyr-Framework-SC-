@@ -27,7 +27,7 @@ export const fyrHtmlDirective: DirectiveHandler = (
   (element as any).__fyrHtmlBound = true;
 
   // Check if content is trusted (warning in development)
-  if (process.env.NODE_ENV === 'development') {
+  if (typeof process !== 'undefined' && process.env?.NODE_ENV === 'development') {
     console.warn(
       'fyr-html renders raw HTML. Only use with trusted content. ' +
       'Never use with user input without sanitization.'

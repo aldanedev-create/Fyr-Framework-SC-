@@ -1,6 +1,6 @@
 # Fyr documentation
 
-Fyr applications are regular HTML enhanced by a JavaScript application definition. The guides below describe the 0.1.0 runtime as it exists in this repository.
+Fyr applications are regular HTML enhanced by a JavaScript application definition. The guides below describe the in-repository `@aldane-dev-create/fyr` 0.1.2 API and the examples in this repository.
 
 ## Core guides
 
@@ -11,6 +11,9 @@ Fyr applications are regular HTML enhanced by a JavaScript application definitio
 - [Server actions](server-actions.md) — the action endpoint convention
 - [Security](security.md) — trusted templates, raw HTML, and deployment boundaries
 - [Deployment](deployment.md) — static hosting and production checklist
+- [CDN usage](cdn.md) — verified 0.1.2 core and optional-module imports
+- [API reference](api-reference.md) — core API, directives, registration, and optional bundles
+- [Examples](examples.md) — what each runnable sample demonstrates
 
 ## Optional modules
 
@@ -25,5 +28,6 @@ Fyr applications are regular HTML enhanced by a JavaScript application definitio
 
 - [FastAPI](fastapi.md)
 - [Flask](flask.md)
+- [Fyr Classroom](classroom.md) — complete Flask mini classroom walkthrough
 
 The optional modules are published as separate entry points so they need not be loaded by a core-only application.

@@ -1,0 +1,7 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fyr Todo</title><link rel="stylesheet" href="./styles.css"></head>
+<body><main fyr-app="todo-demo" class="todo-shell"><header><p>Fyr lists and forms</p><h1>Focus list</h1><span fyr-text="remainingLabel"></span></header>
+<form fyr-submit="addTodo()"><input fyr-model="draft" placeholder="What needs doing?"><button>Add task</button></form>
+<div class="filters"><button fyr-click="setFilter('all')">All</button><button fyr-click="setFilter('active')">Active</button><button fyr-click="setFilter('done')">Done</button><button fyr-click="clearDone()">Clear completed</button></div>
+<ul><template fyr-for="todo in visibleTodos"><li fyr-bind:data-done="todo.done"><label><input type="checkbox" fyr-bind:checked="todo.done" fyr-on:change="toggleTodo(todo.id)"><span fyr-text="todo.title"></span></label><button fyr-click="removeTodo(todo.id)" aria-label="Remove task">×</button></li></template></ul>
+<p fyr-show="isEmpty" class="empty">No tasks in this view.</p></main><script type="module" src="./app.js"></script></body></html>

@@ -1,5 +1,7 @@
 # Fyr
 
+> Historical prototype notes. This document is retained for project history; use the current [Fyr documentation index](../../index.md) and [CDN guide](../../cdn.md) for the supported 0.1.2 API.
+
 **Fyr** (pronounced "fire") is a CDN-first full-stack web framework prototype. It turns ordinary HTML into reactive applications, connects safely to a Python backend, loads Python in the browser only when requested, and loads precompiled Rust WebAssembly modules from a CDN.
 
 ## What is included
@@ -33,18 +35,21 @@ Open `http://127.0.0.1:8000` and sign in with:
 During local development:
 
 ```html
-<script src="/fyr/fyr.js"></script>
-<script src="/fyr/fyr-wasm.js"></script>
-<script src="/fyr/fyr-python.js"></script>
+<script type="module">
+  import { Fyr } from "/dist/fyr.esm.js";
+</script>
 ```
 
 After publishing to npm:
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/fyr-framework@0.1.0/dist/fyr.min.js"></script>
+<script type="module">
+  import { Fyr } from
+    "https://cdn.jsdelivr.net/npm/@aldane-dev-create/fyr@0.1.2/dist/fyr.esm.js";
+</script>
 ```
 
-Pin an exact version in production.
+Pin an exact version in production. See the current [CDN guide](../../cdn.md) for router, Python, WASM, socket, and UI imports.
 
 ## Important production note
 

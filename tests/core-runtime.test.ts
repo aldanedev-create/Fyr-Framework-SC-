@@ -16,7 +16,7 @@ describe('core runtime additions', () => {
     expect(state.count).toBe(2);
   });
 
-  it('binds controller methods and computed values to the completed instance', () => {
+  it('binds controller methods and keeps computed values reactive', async () => {
     const controller = createController({
       name: 'counter',
       state: { count: 1 },
@@ -32,7 +32,10 @@ describe('core runtime additions', () => {
       },
     });
 
+    expect(controller.computed.doubled.value).toBe(2);
+
     controller.methods.increment();
+    await Promise.resolve();
 
     expect(controller.state.count).toBe(2);
     expect(controller.computed.doubled.value).toBe(4);

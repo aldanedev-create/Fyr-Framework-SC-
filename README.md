@@ -24,7 +24,7 @@ Create an HTML file and open it from a local server:
 
     <script type="module">
       import { Fyr } from
-        "https://cdn.jsdelivr.net/npm/fyr-framework@0.1.0/dist/fyr.min.js";
+  "https://cdn.jsdelivr.net/npm/@aldane-dev-create/fyr@0.1.2/dist/fyr.esm.js";
 
       Fyr.createApp("counter", {
         state: { count: 0 },
@@ -51,7 +51,7 @@ Use a module script and import a pinned build:
 
 ~~~html
 <script type="module">
-  import { Fyr } from "https://cdn.jsdelivr.net/npm/fyr-framework@0.1.0/dist/fyr.min.js";
+import { Fyr } from "https://cdn.jsdelivr.net/npm/@aldane-dev-create/fyr@0.1.2/dist/fyr.esm.js";
 </script>
 ~~~
 
@@ -60,11 +60,11 @@ The ESM builds also assign window.Fyr in browsers as a convenience, but importin
 ### npm
 
 ~~~bash
-npm install fyr-framework
+npm install @aldane-dev-create/fyr
 ~~~
 
 ~~~ts
-import { Fyr } from "fyr-framework";
+import { Fyr } from "@aldane-dev-create/fyr";
 ~~~
 
 Fyr targets Node 20+ for local development and modern evergreen browsers at runtime.
@@ -86,6 +86,7 @@ Start with the [documentation index](docs/index.md).
 - [Controllers and state](docs/controllers.md)
 - [Directives](docs/directives.md)
 - [HTTP client](docs/http.md) and [server actions](docs/server-actions.md)
+- [CDN usage](docs/cdn.md) — core, router, Python, WASM, socket, and UI imports for 0.1.2
 - [Browser Python](docs/browser-python.md) and [Rust/WebAssembly](docs/rust-wasm.md)
 - [Routing](docs/routing.md), [deployment](docs/deployment.md), and [security](docs/security.md)
 

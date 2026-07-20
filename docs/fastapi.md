@@ -1,5 +1,7 @@
 # FastAPI integration
 
+The runnable [FastAPI example](../examples/fastapi-api/) demonstrates list, create, and update requests with `Fyr.http`. Run `uvicorn main:app --reload` from that folder after installing its requirements.
+
 Fyr works with any JSON API. This example exposes a basic endpoint that Fyr.http can call.
 
 ~~~py

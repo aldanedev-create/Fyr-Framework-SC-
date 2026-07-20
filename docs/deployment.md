@@ -23,7 +23,7 @@ Pin the package version instead of using a floating tag:
 ~~~html
 <script type="module">
   import { Fyr } from
-    "https://cdn.jsdelivr.net/npm/fyr-framework@0.1.0/dist/fyr.min.js";
+  "https://cdn.jsdelivr.net/npm/@aldane-dev-create/fyr@0.1.2/dist/fyr.esm.js";
 </script>
 ~~~
 

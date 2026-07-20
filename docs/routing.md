@@ -7,7 +7,7 @@ The optional router bundle provides path matching, hash or history navigation, r
 ~~~html
 <script type="module">
   import { Router } from
-    "https://cdn.jsdelivr.net/npm/fyr-framework@0.1.0/dist/fyr-router.esm.js";
+  "https://cdn.jsdelivr.net/npm/@aldane-dev-create/fyr@0.1.2/dist/fyr-router.esm.js";
 
   const router = new Router({
     mode: "hash",
@@ -54,6 +54,6 @@ A guard that returns false blocks navigation. Client-side guards improve user ex
 
 Use hash mode for simple static hosting. For history mode, configure the host to return the application HTML for client-side route URLs; see [deployment.md](deployment.md).
 
-## Status in 0.1.0
+## Current limitations
 
 The router is usable as a navigation and matching utility, but there is no automatic component renderer. Treat router integration as application-owned plumbing and cover it with browser tests.

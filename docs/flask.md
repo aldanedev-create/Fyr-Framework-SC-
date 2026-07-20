@@ -2,6 +2,8 @@
 
 Fyr consumes ordinary JSON endpoints. A minimal Flask API might look like this:
 
+For a complete runnable version, see [the Fyr Classroom example](../examples/flask-api/) and its [walkthrough](classroom.md). It includes announcements, assignments, student submissions, teacher grading, validation, and UI state updates.
+
 ~~~py
 from flask import Flask, jsonify, request
 

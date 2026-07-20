@@ -7,12 +7,12 @@ The optional socket bundle contains SocketClient with reconnect, heartbeat, chan
 ~~~html
 <script type="module">
   import { SocketClient } from
-    "https://cdn.jsdelivr.net/npm/fyr-framework@0.1.0/dist/fyr-socket.esm.js";
+  "https://cdn.jsdelivr.net/npm/@aldane-dev-create/fyr@0.1.2/dist/fyr-socket.esm.js";
 
   const socket = new SocketClient({
     url: "wss://api.example.com/events",
     reconnect: { maxAttempts: 5 },
-    heartbeat: { interval: 30_000 }
+    heartbeat: { enabled: false }
   });
 
   socket.on("message", event => {
@@ -25,6 +25,8 @@ The optional socket bundle contains SocketClient with reconnect, heartbeat, chan
 ~~~
 
 Messages passed to send are JSON-encoded unless they are already strings. Messages sent before a connection succeeds are queued.
+
+In 0.1.2, disable the built-in heartbeat. The current implementation tracks incoming messages but does not send the configured ping payload through SocketClient yet. See [CDN usage](cdn.md#websockets) for the complete CDN example.
 
 ## Channels
 

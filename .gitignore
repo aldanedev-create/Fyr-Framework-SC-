@@ -109,6 +109,9 @@ docs/_build/
 docs/api/
 site/
 
+# Local-only public website project
+fyr public website/
+
 # Coverage directories
 coverage/
 .nyc_output/

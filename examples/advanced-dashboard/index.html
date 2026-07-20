@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Fyr Operations Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@aldane-dev-create/fyr@0.1.2/dist/fyr-ui.css"
+      onerror="this.onerror=null; this.href='../../dist/fyr-ui.css'"
+    >
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main fyr-app="ops-dashboard" class="dashboard-shell">
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">Fyr advanced example</p>
+          <h1 fyr-text="workspaceName"></h1>
+          <p class="muted">A reactive project operations dashboard with filtering, metrics, persistence, notifications, and export.</p>
+        </div>
+        <div class="header-actions">
+          <button class="button button-secondary" fyr-click="exportSnapshot()">Export JSON</button>
+          <button class="button" fyr-click="toggleCreatePanel()">New project</button>
+        </div>
+      </header>
+
+      <section class="metrics" aria-label="Project metrics">
+        <article class="metric-card">
+          <span>Active projects</span>
+          <strong fyr-text="activeCount"></strong>
+        </article>
+        <article class="metric-card">
+          <span>On track</span>
+          <strong fyr-text="onTrackCount"></strong>
+        </article>
+        <article class="metric-card">
+          <span>Average progress</span>
+          <strong fyr-text="averageProgressLabel"></strong>
+        </article>
+      </section>
+
+      <section class="create-panel" fyr-show="showCreatePanel">
+        <form fyr-submit="createProject()">
+          <div class="section-heading">
+            <div>
+              <h2>Create project</h2>
+              <p>New projects are saved in your browser automatically.</p>
+            </div>
+            <button class="icon-button" type="button" fyr-click="toggleCreatePanel()" aria-label="Close form">×</button>
+          </div>
+          <div class="form-grid">
+            <label>
+              Project name
+              <input fyr-model="newProjectName" placeholder="Example: Customer portal">
+            </label>
+            <label>
+              Owner
+              <input fyr-model="newProjectOwner" placeholder="Example: Alex">
+            </label>
+            <label>
+              Status
+              <select fyr-model="newProjectStatus">
+                <option value="On track">On track</option>
+                <option value="At risk">At risk</option>
+                <option value="Planning">Planning</option>
+              </select>
+            </label>
+            <label>
+              Priority
+              <select fyr-model="newProjectPriority">
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </label>
+          </div>
+          <button class="button" type="submit">Add project</button>
+        </form>
+      </section>
+
+      <section class="toolbar" aria-label="Project filters">
+        <label class="search-field">
+          <span>Search</span>
+          <input fyr-model="searchQuery" fyr-on:input="applyFilters()" placeholder="Project or owner">
+        </label>
+        <label>
+          <span>Status</span>
+          <select fyr-model="statusFilter" fyr-on:change="applyFilters()">
+            <option value="All">All projects</option>
+            <option value="On track">On track</option>
+            <option value="At risk">At risk</option>
+            <option value="Planning">Planning</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </label>
+        <p class="result-count"><span fyr-text="visibleCount"></span> matching projects</p>
+      </section>
+
+      <section class="project-grid" aria-live="polite">
+        <template fyr-for="project in visibleProjects">
+          <article class="project-card" fyr-bind:data-status="project.status">
+            <div class="project-card__header">
+              <div>
+                <h2 fyr-text="project.name"></h2>
+                <p fyr-text="project.owner"></p>
+              </div>
+              <span class="priority" fyr-bind:data-priority="project.priority" fyr-text="project.priority"></span>
+            </div>
+
+            <div class="status-row">
+              <span class="status-dot"></span>
+              <span fyr-text="project.status"></span>
+              <span class="updated" fyr-text="project.updatedLabel"></span>
+            </div>
+
+            <div class="progress-summary">
+              <span>Progress</span>
+              <strong><span fyr-text="project.progress"></span>%</strong>
+            </div>
+            <progress max="100" fyr-bind:value="project.progress"></progress>
+
+            <div class="project-card__actions">
+              <button class="button button-secondary" fyr-click="advanceProject(project.id)">Advance 10%</button>
+              <button class="button button-ghost" fyr-click="completeProject(project.id)">Complete</button>
+            </div>
+          </article>
+        </template>
+      </section>
+
+      <p class="empty-state" fyr-show="hasNoResults">No projects match the current filters.</p>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
