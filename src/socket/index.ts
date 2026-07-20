@@ -3,6 +3,8 @@
  * WebSocket client with reconnection, heartbeat, and channels
  */
 
+import { socketClient } from './socket-client';
+
 export { SocketClient, socketClient, type SocketOptions, type SocketEventMap } from './socket-client';
 export { ReconnectManager, reconnectManager, type ReconnectOptions, type ReconnectState } from './reconnect';
 export { HeartbeatManager, heartbeatManager, type HeartbeatOptions, type HeartbeatStatus } from './heartbeat';

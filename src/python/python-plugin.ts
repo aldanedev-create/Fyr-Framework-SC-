@@ -50,7 +50,7 @@ export class PythonPlugin implements Plugin {
   public readonly description = 'Browser Python support via Pyodide';
   public readonly dependencies: string[] = [];
 
-  private options: PythonPluginOptions;
+  public readonly options: PythonPluginOptions;
   private context: PluginContext | null = null;
   private runtime: PythonRuntime | null = null;
   private loader: PyodideLoader | null = null;

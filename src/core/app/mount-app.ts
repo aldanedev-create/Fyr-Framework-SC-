@@ -107,7 +107,7 @@ function mountAppInstance(app: FyrApp): FyrApp {
   (app as any)._renderEffect = renderEffect;
 
   // Run initial render
-  renderEffect.run();
+  renderEffect();
 
   // Call mounted lifecycle hook
   if (app.mounted) {

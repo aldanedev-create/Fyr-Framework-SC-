@@ -69,55 +69,55 @@ export class PythonError extends Error {
    * Check if the error is a runtime error
    */
   isRuntimeError(): boolean {
-    return [
+    return ([
       PythonErrorCode.NOT_LOADED,
       PythonErrorCode.RUNTIME_NOT_INITIALIZED,
       PythonErrorCode.INIT_ERROR,
       PythonErrorCode.LOAD_ERROR,
-    ].includes(this.code as PythonErrorCodeType);
+    ] as readonly PythonErrorCodeType[]).includes(this.code as PythonErrorCodeType);
   }
 
   /**
    * Check if the error is an execution error
    */
   isExecutionError(): boolean {
-    return [
+    return ([
       PythonErrorCode.EXECUTION_ERROR,
       PythonErrorCode.EVAL_ERROR,
       PythonErrorCode.TIMEOUT_ERROR,
-    ].includes(this.code as PythonErrorCodeType);
+    ] as readonly PythonErrorCodeType[]).includes(this.code as PythonErrorCodeType);
   }
 
   /**
    * Check if the error is a package error
    */
   isPackageError(): boolean {
-    return [
+    return ([
       PythonErrorCode.PACKAGE_ERROR,
       PythonErrorCode.PACKAGE_INSTALL_ERROR,
       PythonErrorCode.PACKAGE_NOT_ALLOWED,
-    ].includes(this.code as PythonErrorCodeType);
+    ] as readonly PythonErrorCodeType[]).includes(this.code as PythonErrorCodeType);
   }
 
   /**
    * Check if the error is a worker error
    */
   isWorkerError(): boolean {
-    return [
+    return ([
       PythonErrorCode.WORKER_ERROR,
       PythonErrorCode.WORKER_TERMINATED,
-    ].includes(this.code as PythonErrorCodeType);
+    ] as readonly PythonErrorCodeType[]).includes(this.code as PythonErrorCodeType);
   }
 
   /**
    * Check if the error is a bridge error
    */
   isBridgeError(): boolean {
-    return [
+    return ([
       PythonErrorCode.BRIDGE_ERROR,
       PythonErrorCode.BRIDGE_FUNCTION_NOT_FOUND,
       PythonErrorCode.BRIDGE_CALL_ERROR,
-    ].includes(this.code as PythonErrorCodeType);
+    ] as readonly PythonErrorCodeType[]).includes(this.code as PythonErrorCodeType);
   }
 }
 

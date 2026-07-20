@@ -73,45 +73,45 @@ export class WasmError extends Error {
    * Check if the error is a load error
    */
   isLoadError(): boolean {
-    return [
+    return ([
       WasmErrorCode.LOAD_ERROR,
       WasmErrorCode.COMPILE_ERROR,
       WasmErrorCode.URL_NOT_ALLOWED,
       WasmErrorCode.TIMEOUT_ERROR,
-    ].includes(this.code as WasmErrorCodeType);
+    ] as readonly WasmErrorCodeType[]).includes(this.code as WasmErrorCodeType);
   }
 
   /**
    * Check if the error is an instance error
    */
   isInstanceError(): boolean {
-    return [
+    return ([
       WasmErrorCode.INSTANCE_ERROR,
       WasmErrorCode.INSTANTIATE_ERROR,
       WasmErrorCode.INSTANCE_DESTROYED,
       WasmErrorCode.INSTANCE_NOT_READY,
-    ].includes(this.code as WasmErrorCodeType);
+    ] as readonly WasmErrorCodeType[]).includes(this.code as WasmErrorCodeType);
   }
 
   /**
    * Check if the error is a call error
    */
   isCallError(): boolean {
-    return [
+    return ([
       WasmErrorCode.CALL_ERROR,
       WasmErrorCode.EXPORT_NOT_FOUND,
       WasmErrorCode.NO_EXPORTS,
-    ].includes(this.code as WasmErrorCodeType);
+    ] as readonly WasmErrorCodeType[]).includes(this.code as WasmErrorCodeType);
   }
 
   /**
    * Check if the error is a memory error
    */
   isMemoryError(): boolean {
-    return [
+    return ([
       WasmErrorCode.MEMORY_NOT_FOUND,
       WasmErrorCode.MEMORY_LIMIT_EXCEEDED,
-    ].includes(this.code as WasmErrorCodeType);
+    ] as readonly WasmErrorCodeType[]).includes(this.code as WasmErrorCodeType);
   }
 }
 

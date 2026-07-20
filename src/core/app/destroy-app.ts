@@ -4,7 +4,7 @@
  */
 
 import { appRegistry } from './app-registry';
-import { cleanupEffects } from '../reactivity/effect';
+import { cleanupEffect } from '../reactivity/effect';
 import { cleanupEvents } from '../events/event-cleanup';
 
 import type { FyrApp } from '../types';
@@ -44,7 +44,7 @@ export function destroyApp(target: string | FyrApp): boolean {
 
   // Clean up reactive effects
   if ((app as any)._renderEffect) {
-    cleanupEffects((app as any)._renderEffect);
+    cleanupEffect((app as any)._renderEffect);
   }
 
   // Clean up event listeners

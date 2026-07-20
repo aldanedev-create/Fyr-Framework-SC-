@@ -1,0 +1,1 @@
+C:\Users\aldan\Downloads\Fry\ Framework(SC)\rust\target\wasm32-unknown-unknown\release\libfyr_engine.rlib: C:\Users\aldan\Downloads\Fry\ Framework(SC)\rust\src\engine.rs C:\Users\aldan\Downloads\Fry\ Framework(SC)\rust\src\lib.rs

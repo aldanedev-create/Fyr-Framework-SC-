@@ -111,7 +111,14 @@ export interface PropDefinition {
 /**
  * Prop type
  */
-export type PropType = String | Number | Boolean | Object | Array | Function | Symbol;
+export type PropType = StringConstructor | NumberConstructor | BooleanConstructor | ObjectConstructor | ArrayConstructor | FunctionConstructor | SymbolConstructor;
+
+/** Lifecycle hooks accepted by a component definition. */
+export interface ComponentLifecycle {
+  mounted?: (this: ComponentInstance) => void | Promise<void>;
+  beforeDestroy?: (this: ComponentInstance) => void;
+  destroyed?: (this: ComponentInstance) => void;
+}
 
 /**
  * Slot definition

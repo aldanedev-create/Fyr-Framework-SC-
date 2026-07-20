@@ -175,12 +175,13 @@ export function onComponentDOMEvent(
   if (typeof document === 'undefined') return;
 
   const eventName = `fyr-component:${event}`;
-  const listener = (e: CustomEvent) => {
-    const detail = e.detail?.detail;
-    if (e.detail?.event?.target?.name === componentName) {
+  const listener = (e: Event) => {
+    const customEvent = e as CustomEvent;
+    const detail = customEvent.detail?.detail;
+    if (customEvent.detail?.event?.target?.name === componentName) {
       handler(detail);
     }
   };
 
-  document.addEventListener(eventName, listener);
+  document.addEventListener(eventName, listener as EventListener);
 }

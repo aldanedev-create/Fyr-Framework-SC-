@@ -117,7 +117,7 @@ export class Dialog {
         let value: string | undefined;
 
         if (this.options.inputType) {
-          const input = this.modal?.element?.querySelector('.fyr-dialog-input') as HTMLInputElement | HTMLTextAreaElement;
+          const input = this.modal?.getElement()?.querySelector('.fyr-dialog-input') as HTMLInputElement | HTMLTextAreaElement;
           if (input) {
             value = input.value;
           }

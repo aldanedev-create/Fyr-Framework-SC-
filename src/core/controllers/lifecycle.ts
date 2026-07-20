@@ -197,7 +197,7 @@ export class LifecycleManager {
     const instanceHook = this.instance[hook as keyof ControllerInstance];
     if (typeof instanceHook === 'function') {
       try {
-        instanceHook.call(this.instance, context);
+        (instanceHook as LifecycleHook).call(this.instance, context);
       } catch (error) {
         console.error(
           `Instance lifecycle hook '${hook}' error on controller '${this.instance.name}':`,
@@ -235,7 +235,7 @@ export class LifecycleManager {
     const instanceHook = this.instance[hook as keyof ControllerInstance];
     if (typeof instanceHook === 'function') {
       try {
-        const result = instanceHook.call(this.instance, context);
+        const result = (instanceHook as LifecycleHook).call(this.instance, context);
         if (result instanceof Promise) {
           await result;
         }

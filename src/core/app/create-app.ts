@@ -10,10 +10,8 @@ import { createController } from '../controllers/controller-factory';
 import { deepClone } from '../utilities/object-utils';
 
 import type {
+  AnyFunction,
   FyrApp,
-  FyrAppOptions,
-  FyrControllerDefinition,
-  ReactiveState,
 } from '../types';
 
 /**
@@ -101,7 +99,7 @@ export interface FyrAppOptions {
   state?: Record<string, any>;
 
   /** Controller methods */
-  methods?: Record<string, Function>;
+  methods?: Record<string, AnyFunction>;
 
   /** Computed values */
   computed?: Record<string, () => any>;

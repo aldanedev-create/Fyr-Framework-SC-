@@ -57,46 +57,13 @@ export function createComponentInstance(
   // Create reactive state
   const state = reactive(definition.state || {});
 
-  // Create computed values
-  const computedValues: Record<string, any> = {};
-  if (definition.computed) {
-    for (const [key, getter] of Object.entries(definition.computed)) {
-      computedValues[key] = computed(() => {
-        const instance = {
-          state,
-          props: mergedProps,
-          methods: {},
-          computed: computedValues,
-          emit: events.emit,
-        };
-        return getter.call(instance);
-      });
-    }
-  }
-
-  // Create methods bound to instance
-  const methods: Record<string, Function> = {};
-  if (definition.methods) {
-    for (const [key, method] of Object.entries(definition.methods)) {
-      const instance = {
-        state,
-        props: mergedProps,
-        methods,
-        computed: computedValues,
-        emit: events.emit,
-      };
-      methods[key] = method.bind(instance);
-    }
-  }
-
-  // Create instance
   const instance: ComponentInstance = {
     name,
     definition,
     state,
     props: mergedProps,
-    methods,
-    computed: computedValues,
+    methods: {},
+    computed: {},
     slots: context.slots || {},
     emit: events.emit,
     el: context.el || null,
@@ -107,13 +74,20 @@ export function createComponentInstance(
     _cleanups: [],
   };
 
+  for (const [key, getter] of Object.entries(definition.computed)) {
+    instance.computed[key] = computed(() => getter.call(instance));
+  }
+  for (const [key, method] of Object.entries(definition.methods)) {
+    instance.methods[key] = method.bind(instance);
+  }
+
   // Set up watchers
   if (definition.watch) {
     for (const [key, handler] of Object.entries(definition.watch)) {
       const watchFn = () => {
         // Check state first, then computed, then props
         if (key in state) return state[key];
-        if (key in computedValues) return computedValues[key]?.value;
+        if (key in instance.computed) return instance.computed[key]?.value;
         if (key in mergedProps) return mergedProps[key];
         return undefined;
       };

@@ -16,6 +16,12 @@ export type DirectiveHandler = (
   context: DirectiveContext
 ) => void;
 
+/** A named directive definition for plugins and custom registries. */
+export interface FyrDirective {
+  name: string;
+  handler: DirectiveHandler;
+}
+
 /**
  * Directive context
  */

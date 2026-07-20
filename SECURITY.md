@@ -1,115 +1,33 @@
+# Security policy
 
----
+## Supported versions
 
-## SECURITY.md
+Fyr is currently pre-1.0. Security fixes are made against the latest 0.1.x release and the main development branch. Earlier prototypes are not supported.
 
-```markdown
-# Security Policy
+## Reporting a vulnerability
 
-## Supported Versions
+Please do not disclose suspected vulnerabilities in public issues, discussions, or pull requests. Send a report to **security@fyr.dev** with:
 
-| Version | Supported |
-|---------|-----------|
-| 1.0.x   | ✅ Yes    |
-| 0.x.x   | ⚠️ Limited |
-| < 0.1.0 | ❌ No     |
+- affected version or commit
+- a clear description and impact
+- reproducible steps or proof of concept
+- any suggested mitigation
 
-## Reporting a Vulnerability
+We aim to acknowledge valid reports within 72 hours and will coordinate a fix and disclosure timeline with the reporter.
 
-If you discover a security vulnerability, please **do not** open a public issue.
+## Security model
 
-Instead, email us at: **security@fyr.dev**
+Browser-delivered code is not secret. This includes Fyr application code, directives, browser Python, WebAssembly modules, network requests, and public configuration.
 
-### What to Include
+Servers must enforce authentication, authorization, validation, rate limits, and secret handling. Fyr cannot protect against a backend that accepts an unauthorized request.
 
-- Type of vulnerability
-- Affected version
-- Steps to reproduce
-- Impact and severity
-- Any potential fixes
+## Framework-specific guidance
 
-### Response Timeline
+- Use only templates and directive expressions that you control. The current expression evaluator is not a sandbox.
+- Prefer fyr-text for untrusted values. Sanitize any content passed to fyr-html.
+- Use HTTPS and a carefully scoped CORS policy in production.
+- Protect cookie-authenticated state changes with CSRF defenses.
+- Restrict WebAssembly sources to trusted origins and verify released artifacts.
+- Do not put credentials, private keys, or authorization decisions in browser code.
 
-| Response | Timeframe |
-|----------|-----------|
-| Acknowledgment | 24 hours |
-| Preliminary report | 3 days |
-| Fix development | Varies |
-| Public disclosure | 30 days after fix |
-
-## Security Model
-
-### Browser Code is Untrusted
-
-Fyr is designed with the understanding that:
-
-- JavaScript is visible to users
-- Python in browser is inspectable
-- WebAssembly can be analyzed
-- Network requests can be modified
-
-### Server Code is Trusted
-
-These must stay on the server:
-
-- Authentication logic
-- Authorization checks
-- Database credentials
-- API keys and secrets
-- Business rules
-- Payment processing
-
-### What Fyr Protects Against
-
-| Threat | Mitigation |
-|--------|------------|
-| XSS | Escaped text output |
-| Expression injection | Restricted parser |
-| Prototype pollution | Safe path handling |
-| CSRF | Cookie security, tokens |
-
-### What Fyr Does NOT Protect Against
-
-| Threat | Responsibility |
-|--------|----------------|
-| Secrets in browser | Developer |
-| Server vulnerabilities | Developer |
-| Database injection | Developer |
-| Business logic flaws | Developer |
-
-## Security Best Practices
-
-### For Fyr Users
-
-1. **Never put secrets in browser code**
-2. **Use HTTPS in production**
-3. **Use HTTP-only cookies for auth**
-4. **Validate all inputs on server**
-5. **Implement rate limiting**
-6. **Keep dependencies updated**
-7. **Use Subresource Integrity for CDN**
-
-### For Fyr Developers
-
-1. **Review all PRs for security**
-2. **Run security audits regularly**
-3. **Test for common vulnerabilities**
-4. **Keep dependencies updated**
-5. **Minimize core dependencies**
-
-## Responsible Disclosure
-
-We follow responsible disclosure practices:
-
-1. Reporter finds vulnerability
-2. Reporter emails security@fyr.dev
-3. We acknowledge within 24 hours
-4. We investigate and fix
-5. We release patch
-6. Reporter is credited (if desired)
-
-## Public Issues
-
-**Do not** report security issues in public GitHub issues.
-
-Use security@fyr.dev for all security concerns.
+For detailed implementation guidance, see [docs/security.md](docs/security.md).

@@ -10,7 +10,8 @@ import { appRegistry } from './app/app-registry';
 import { http } from './http/http-client';
 import { action } from './http/actions';
 import { notify } from './ui/toast';
-import { controller } from './controllers/controller-registry';
+import { registerController } from './controllers/controller-registry';
+import { registerComponent } from './components/component-registry';
 import { directive } from './directives/directive-registry';
 import { plugin } from './plugins/plugin-system';
 import { nextTick } from './utilities/scheduler';
@@ -44,7 +45,7 @@ export class Fyr implements FyrInterface {
   static start = mountApp;
 
   /** Register a controller */
-  static controller = controller;
+  static controller = registerController;
 
   /** Register a component */
   static component = component;
@@ -93,10 +94,7 @@ export default Fyr;
  * Register component (placeholder - will be implemented in Phase 2/3)
  */
 function component(name: string, definition: FyrComponentDefinition): void {
-  // Placeholder implementation
-  console.warn('Component system coming in version 0.3.0');
-  // @ts-ignore - will be implemented later
-  componentRegistry.set(name, definition);
+  registerComponent(name, { name, props: {}, state: {}, methods: {}, computed: {}, watch: {}, template: '', templateUrl: '', slots: {}, ...definition });
 }
 
 // Global exposure (for browser environment)

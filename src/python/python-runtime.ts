@@ -206,7 +206,7 @@ export class PythonRuntime {
     this.log(`Installing package: ${packageName}`);
 
     try {
-      await this.options.packageLoader.install(packageName);
+      await this.options.packageLoader.install(packageName, this.options.loader.getPyodide());
       this.state.packages.add(packageName);
       this.log(`Package '${packageName}' installed`);
     } catch (error) {

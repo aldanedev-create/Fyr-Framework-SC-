@@ -3,7 +3,7 @@
  * Loads Pyodide runtime from CDN
  */
 
-import { PythonError } from './python-errors';
+import { PythonError, createPythonError } from './python-errors';
 
 /**
  * Pyodide configuration
@@ -44,7 +44,7 @@ export class PyodideLoader {
   private config: Required<PyodideConfig>;
   private pyodide: PyodideInstance | null = null;
   private loadingPromise: Promise<void> | null = null;
-  private isLoaded = false;
+  private loaded = false;
 
   constructor(config: PyodideConfig = {}) {
     this.config = { ...DEFAULT_CONFIG, ...config };
@@ -54,7 +54,7 @@ export class PyodideLoader {
    * Load Pyodide runtime
    */
   async load(): Promise<void> {
-    if (this.isLoaded) {
+    if (this.loaded) {
       return;
     }
 
@@ -81,7 +81,7 @@ export class PyodideLoader {
       });
 
       this.pyodide = pyodide;
-      this.isLoaded = true;
+      this.loaded = true;
 
       this.log('Pyodide loaded successfully');
     } catch (error) {
@@ -107,7 +107,7 @@ export class PyodideLoader {
    * Check if loaded
    */
   isLoaded(): boolean {
-    return this.isLoaded;
+    return this.loaded;
   }
 
   /**
@@ -154,7 +154,7 @@ export class PyodideLoader {
    */
   reset(): void {
     this.pyodide = null;
-    this.isLoaded = false;
+    this.loaded = false;
     this.loadingPromise = null;
   }
 }

@@ -54,6 +54,7 @@ export function compileNode(
       directives: [],
       isController: true,
       controllerName: element.getAttribute('fyr-controller')!,
+      children: [],
     };
     compiledNodes.set(element, compiled);
     return compiled;

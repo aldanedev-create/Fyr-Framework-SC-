@@ -5,61 +5,79 @@
  * Functions are compiled to WASM and loaded by the browser.
  */
 
-use wasm_bindgen::prelude::*;
-use console_error_panic_hook::set_once as set_panic_hook;
+mod engine;
 
-// Module exports
-pub mod numbers;
+// Rich string, array, and memory helpers use wasm-bindgen JavaScript types and
+// are intentionally opt-in. The default engine remains directly instantiable by
+// Fyr's generic WebAssembly loader without generated JavaScript glue.
+#[cfg(feature = "bindings")]
 pub mod strings;
+#[cfg(feature = "bindings")]
 pub mod arrays;
+#[cfg(feature = "bindings")]
 pub mod memory;
-
-// Re-export all modules
-pub use numbers::*;
-pub use strings::*;
+#[cfg(feature = "bindings")]
 pub use arrays::*;
+#[cfg(feature = "bindings")]
 pub use memory::*;
+#[cfg(feature = "bindings")]
+pub use strings::*;
 
-/// Initialize the WASM module
-/// Call this once when the module loads
-#[wasm_bindgen]
-pub fn init() {
-    // Set up panic hook for better error messages
-    set_panic_hook();
+#[cfg(feature = "bindings")]
+pub mod numbers;
+#[cfg(feature = "bindings")]
+pub use numbers::*;
 
-    // Initialize memory
-    memory::init_memory();
-
-    #[cfg(feature = "console_error_panic_hook")]
-    console_error_panic_hook::set_once();
-}
-
-/// Get the version of the WASM engine
-#[wasm_bindgen]
-pub fn version() -> String {
-    env!("CARGO_PKG_VERSION").to_string()
-}
-
-/// Get the engine name
-#[wasm_bindgen]
-pub fn engine_name() -> String {
-    "Fyr WASM Engine".to_string()
+/// Numeric engine version for direct WebAssembly consumers.
+#[cfg(not(feature = "bindings"))]
+#[unsafe(no_mangle)]
+pub extern "C" fn version() -> u32 {
+    1
 }
 
 /// Simple test function - returns 42
-#[wasm_bindgen]
-pub fn answer_to_life() -> u32 {
+#[cfg(not(feature = "bindings"))]
+#[unsafe(no_mangle)]
+pub extern "C" fn answer_to_life() -> u32 {
     42
 }
 
-/// Echo a string back
-#[wasm_bindgen]
-pub fn echo_string(input: String) -> String {
-    input
-}
+#[cfg(not(feature = "bindings"))]
+#[unsafe(no_mangle)]
+pub extern "C" fn add(a: i32, b: i32) -> i32 { engine::add(a, b) }
 
-/// Measure execution time of a function (for benchmarking)
-#[wasm_bindgen]
-pub fn measure_time(fn_name: String) -> String {
-    format!("Measured: {}", fn_name)
-}
+#[cfg(not(feature = "bindings"))]
+#[unsafe(no_mangle)]
+pub extern "C" fn subtract(a: i32, b: i32) -> i32 { engine::subtract(a, b) }
+
+#[cfg(not(feature = "bindings"))]
+#[unsafe(no_mangle)]
+pub extern "C" fn multiply(a: i32, b: i32) -> i32 { engine::multiply(a, b) }
+
+#[cfg(not(feature = "bindings"))]
+#[unsafe(no_mangle)]
+pub extern "C" fn divide(a: i32, b: i32) -> i32 { engine::divide(a, b) }
+
+#[cfg(not(feature = "bindings"))]
+#[unsafe(no_mangle)]
+pub extern "C" fn power(a: i32, b: i32) -> i32 { engine::power(a, b) }
+
+#[cfg(not(feature = "bindings"))]
+#[unsafe(no_mangle)]
+pub extern "C" fn factorial(n: u32) -> u32 { engine::factorial(n) }
+
+#[cfg(not(feature = "bindings"))]
+#[unsafe(no_mangle)]
+pub extern "C" fn fibonacci(n: u32) -> u32 { engine::fibonacci(n) }
+
+#[cfg(not(feature = "bindings"))]
+#[unsafe(no_mangle)]
+pub extern "C" fn gcd(a: u32, b: u32) -> u32 { engine::gcd(a, b) }
+
+#[cfg(not(feature = "bindings"))]
+#[unsafe(no_mangle)]
+pub extern "C" fn lcm(a: u32, b: u32) -> u32 { engine::lcm(a, b) }
+
+#[cfg(not(feature = "bindings"))]
+#[unsafe(no_mangle)]
+pub extern "C" fn is_prime(n: u32) -> u32 { engine::is_prime(n) as u32 }

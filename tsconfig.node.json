@@ -1,9 +1,12 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "module": "CommonJS",
-    "moduleResolution": "node",
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
     "outDir": "dist/node",
     "allowJs": true,
     "types": ["node"]
@@ -16,7 +19,7 @@
     "playwright.config.ts"
   ],
   "exclude": [
-    "packages/**/*",
+    "src/**/*",
     "examples/**/*",
     "tests/**/*"
   ]

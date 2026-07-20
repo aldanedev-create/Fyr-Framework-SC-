@@ -1,5 +1,8 @@
 import { defineConfig } from 'vitest/config';
-import { resolve } from 'path';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const currentDirectory = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   test: {
@@ -11,7 +14,7 @@ export default defineConfig({
       },
     },
     setupFiles: ['./tests/setup.ts'],
-    include: ['packages/**/*.{test,spec}.{ts,tsx,js}', 'tests/**/*.{test,spec}.{ts,tsx,js}'],
+    include: ['src/**/*.{test,spec}.{ts,tsx,js}', 'tests/**/*.{test,spec}.{ts,tsx,js}'],
     exclude: [
       '**/node_modules/**',
       '**/dist/**',
@@ -22,7 +25,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html', 'lcov'],
-      include: ['packages/**/*.ts'],
+      include: ['src/**/*.ts'],
       exclude: [
         '**/*.d.ts',
         '**/*.test.ts',
@@ -56,15 +59,15 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@fyr/core': resolve(__dirname, 'packages/core/src'),
-      '@fyr/core/*': resolve(__dirname, 'packages/core/src/*'),
-      '@fyr/python': resolve(__dirname, 'packages/python/src'),
-      '@fyr/python/*': resolve(__dirname, 'packages/python/src/*'),
-      '@fyr/wasm': resolve(__dirname, 'packages/wasm/src'),
-      '@fyr/wasm/*': resolve(__dirname, 'packages/wasm/src/*'),
-      '@fyr/router': resolve(__dirname, 'packages/router/src'),
-      '@fyr/router/*': resolve(__dirname, 'packages/router/src/*'),
-      '@fyr/test-utils': resolve(__dirname, 'tests/utils'),
+      '@fyr/core': resolve(currentDirectory, 'src/core'),
+      '@fyr/core/*': resolve(currentDirectory, 'src/core/*'),
+      '@fyr/python': resolve(currentDirectory, 'src/python'),
+      '@fyr/python/*': resolve(currentDirectory, 'src/python/*'),
+      '@fyr/wasm': resolve(currentDirectory, 'src/wasm'),
+      '@fyr/wasm/*': resolve(currentDirectory, 'src/wasm/*'),
+      '@fyr/router': resolve(currentDirectory, 'src/router'),
+      '@fyr/router/*': resolve(currentDirectory, 'src/router/*'),
+      '@fyr/test-utils': resolve(currentDirectory, 'tests/utils'),
     },
   },
 });

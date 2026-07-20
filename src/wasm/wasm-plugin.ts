@@ -50,7 +50,7 @@ export class WasmPlugin implements Plugin {
   public readonly description = 'Browser WebAssembly support';
   public readonly dependencies: string[] = [];
 
-  private options: WasmPluginOptions;
+  public readonly options: WasmPluginOptions;
   private context: PluginContext | null = null;
   private loader: WasmLoader | null = null;
   private registry: WasmRegistry | null = null;
@@ -157,10 +157,10 @@ export class WasmPlugin implements Plugin {
 
     try {
       // Load the module
-      const module = await this.loader.load(name, url, options);
+      const webAssemblyModule = await this.loader.load(name, url, options);
 
-      // Register the module
-      this.registry.register(name, module);
+      // Registry enriches a compiled module with its runtime metadata.
+      const module = this.registry.register(name, webAssemblyModule);
 
       // Set up memory
       if (this.memoryManager && module.memory) {
@@ -299,6 +299,9 @@ export class WasmPlugin implements Plugin {
     try {
       // Load the module if not already loaded
       if (!this.has(name)) {
+        if (!options.url) {
+          throw new WasmError(`A URL is required to load module '${name}'`, 'LOAD_ERROR');
+        }
         await this.load(name, options.url, { imports: options.imports });
       }
 

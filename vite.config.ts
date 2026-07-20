@@ -1,42 +1,32 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'path';
-import dts from 'vite-plugin-dts';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import type { PreRenderedAsset } from 'rollup';
+
+const currentDirectory = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  plugins: [
-    dts({
-      include: ['packages/**/*.ts'],
-      exclude: ['packages/**/*.test.ts', 'packages/**/__tests__/**'],
-      outDir: 'dist',
-      rollupTypes: true,
-      tsconfigPath: './tsconfig.json',
-      staticImport: true,
-    }),
-  ],
   build: {
     lib: {
       entry: {
-        'fyr': resolve(__dirname, 'packages/core/src/index.ts'),
-        'fyr-python': resolve(__dirname, 'packages/python/src/index.ts'),
-        'fyr-wasm': resolve(__dirname, 'packages/wasm/src/index.ts'),
-        'fyr-router': resolve(__dirname, 'packages/router/src/index.ts'),
+        'fyr': resolve(currentDirectory, 'src/core/index.ts'),
+        'fyr-python': resolve(currentDirectory, 'src/python/index.ts'),
+        'fyr-python.worker': resolve(currentDirectory, 'src/python/python.worker.ts'),
+        'fyr-wasm': resolve(currentDirectory, 'src/wasm/index.ts'),
+        'fyr-router': resolve(currentDirectory, 'src/router/index.ts'),
+        'fyr-socket': resolve(currentDirectory, 'src/socket/index.ts'),
+        'fyr-ui': resolve(currentDirectory, 'src/ui/index.ts'),
       },
       formats: ['es', 'cjs'],
       name: 'Fyr',
+      fileName: (format, entryName) => format === 'es' ? `${entryName}.esm.js` : `${entryName}.js`,
     },
     rollupOptions: {
       external: [],
       output: {
-        entryFileNames: (chunkInfo) => {
-          const name = chunkInfo.name;
-          return {
-            es: `${name}.esm.js`,
-            cjs: `${name}.js`,
-          } [chunkInfo.format as string] || `${name}.js`;
-        },
         chunkFileNames: 'chunks/[name]-[hash].js',
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name === 'style.css') return 'fyr.css';
+        assetFileNames: (assetInfo: PreRenderedAsset) => {
+          if (assetInfo.name?.endsWith('.css')) return 'fyr-ui.css';
           return assetInfo.name || 'assets/[name]-[hash][extname]';
         },
         globals: {
@@ -45,6 +35,7 @@ export default defineConfig({
           'fyr-wasm': 'FyrWasm',
           'fyr-router': 'FyrRouter',
         },
+        exports: 'named',
       },
     },
     outDir: 'dist',
@@ -57,11 +48,11 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@fyr/core': resolve(__dirname, 'packages/core/src'),
-      '@fyr/python': resolve(__dirname, 'packages/python/src'),
-      '@fyr/wasm': resolve(__dirname, 'packages/wasm/src'),
-      '@fyr/router': resolve(__dirname, 'packages/router/src'),
-      '@fyr/test-utils': resolve(__dirname, 'tests/utils'),
+      '@fyr/core': resolve(currentDirectory, 'src/core'),
+      '@fyr/python': resolve(currentDirectory, 'src/python'),
+      '@fyr/wasm': resolve(currentDirectory, 'src/wasm'),
+      '@fyr/router': resolve(currentDirectory, 'src/router'),
+      '@fyr/test-utils': resolve(currentDirectory, 'tests/utils'),
     },
   },
   optimizeDeps: {

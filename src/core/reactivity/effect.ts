@@ -149,34 +149,6 @@ function scheduleEffect(effect: () => void): void {
 }
 
 /**
- * Clean up an effect's dependencies
- * @param effect - Effect to clean up
- */
-function cleanupEffect(effect: () => void): void {
-  const deps = effectDepsMap.get(effect);
-  if (!deps) return;
-
-  // Remove effect from all dependencies
-  for (const [target, key] of deps) {
-    const depsMap = targetMap.get(target);
-    if (depsMap) {
-      const dep = depsMap.get(key);
-      if (dep) {
-        dep.delete(effect);
-        if (dep.size === 0) {
-          depsMap.delete(key);
-        }
-      }
-      if (depsMap.size === 0) {
-        targetMap.delete(target);
-      }
-    }
-  }
-
-  deps.clear();
-}
-
-/**
  * Clean up all effects for a target
  * @param target - Target to clean up
  */
@@ -234,3 +206,6 @@ export function getEffectDeps(effect: () => void): Array<[object, string | symbo
   const deps = effectDepsMap.get(effect);
   return deps ? Array.from(deps) : [];
 }
+
+/** Backwards-compatible name used by the reactivity debugger. */
+export const getDependencies = getEffectDeps;

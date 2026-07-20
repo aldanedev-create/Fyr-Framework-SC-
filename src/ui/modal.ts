@@ -64,13 +64,17 @@ const DEFAULT_OPTIONS: Partial<ModalOptions> = {
  */
 export class Modal {
   private options: ModalOptions;
-  private element: HTMLElement | null = null;
+  protected element: HTMLElement | null = null;
   private overlay: HTMLElement | null = null;
   private isOpen = false;
   private resolvePromise: ((value: any) => void) | null = null;
 
   constructor(options: ModalOptions) {
     this.options = { ...DEFAULT_OPTIONS, ...options };
+  }
+
+  getElement(): HTMLElement | null {
+    return this.element;
   }
 
   /**

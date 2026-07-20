@@ -3,6 +3,8 @@
  * Browser Python support via Pyodide
  */
 
+import { pythonPlugin } from './python-plugin';
+
 export { PythonPlugin, pythonPlugin } from './python-plugin';
 export { PyodideLoader, pyodideLoader, type PyodideConfig } from './pyodide-loader';
 export { PythonRuntime, pythonRuntime, type PythonRuntimeOptions } from './python-runtime';

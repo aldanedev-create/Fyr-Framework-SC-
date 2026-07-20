@@ -2,6 +2,8 @@
  * Router System - Main Export
  */
 
+import { router } from './router';
+
 export { Router, router } from './router';
 export { RouteMatcher, type RouteMatch, type RouteParams } from './route-matcher';
 export {

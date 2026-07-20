@@ -3,7 +3,7 @@
  * Manages WebSocket channels for pub/sub
  */
 
-import type { SocketClient } from './socket-client';
+import { socketClient, type SocketClient } from './socket-client';
 
 /**
  * Channel options

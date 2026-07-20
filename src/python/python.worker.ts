@@ -130,7 +130,8 @@ async function ensurePyodideLoaded(): Promise<void> {
 
   try {
     // Import Pyodide
-    const module = await import('https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.mjs');
+    const pyodideUrl = 'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.mjs';
+    const module = await import(/* @vite-ignore */ pyodideUrl);
     pyodide = await module.loadPyodide({
       indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.27.7/full/',
     });

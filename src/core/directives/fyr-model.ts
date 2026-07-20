@@ -151,14 +151,14 @@ function createInputHandler(
       }
     } else {
       // Nested path
-      let target = context.controller?.state;
-      if (!target) return;
+      if (!context.controller) return;
+      let target: Record<string, any> = context.controller.state;
       
       for (let i = 0; i < parts.length - 1; i++) {
         if (!target[parts[i]]) {
           target[parts[i]] = {};
         }
-        target = target[parts[i]];
+        target = target[parts[i]] as Record<string, any>;
       }
       target[parts[parts.length - 1]] = value;
     }

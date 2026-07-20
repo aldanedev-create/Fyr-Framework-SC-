@@ -1,67 +1,71 @@
 # Contributing to Fyr
 
-Thank you for your interest in contributing to Fyr! We welcome contributions from everyone.
+Thanks for helping improve Fyr. This project is a 0.x prototype, so contributions that improve correctness, tests, documentation, accessibility, and security are especially valuable.
 
-## Code of Conduct
+## Before you start
 
-By participating in this project, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md).
+Search existing issues before opening a new one. For a security concern, do not file a public issue; follow [SECURITY.md](SECURITY.md).
 
-## How to Contribute
+For a bug report, include:
 
-### Reporting Bugs
+- a minimal reproduction
+- expected and actual behavior
+- browser and operating-system versions
+- console output or screenshots when relevant
 
-1. Check if the bug has already been reported in [Issues](https://github.com/fyr-framework/fyr/issues)
-2. If not, create a new issue with:
-   - Clear description
-   - Steps to reproduce
-   - Expected vs actual behavior
-   - Browser and version
-   - Any relevant code or screenshots
+For a feature proposal, explain the user problem and how it fits Fyr's CDN-first, lightweight design.
 
-### Suggesting Features
+## Development setup
 
-1. Check if the feature has been requested before
-2. Open an issue with:
-   - Clear description of the feature
-   - Use case and motivation
-   - Any implementation ideas
-
-### Pull Requests
-
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature`
-3. Make your changes
-4. Run tests: `npm test`
-5. Update documentation if needed
-6. Commit with descriptive message
-7. Push to your fork
-8. Open a Pull Request
-
-### Pull Request Guidelines
-
-- One feature or fix per PR
-- Include tests for new features
-- Update documentation
-- Keep code consistent with project style
-- PR description should explain the change
-
-## Development Setup
-
-```bash
-# Clone your fork
-git clone https://github.com/your-username/fyr.git
-
-# Install dependencies
+~~~bash
+git clone https://github.com/fyr-framework/fyr.git
+cd fyr
 npm install
-
-# Build the framework
-npm run build
-
-# Run tests
-npm run test
-
-# Run type checking
 npm run type-check
-
-# Lint code
 npm run lint
+npm test
+npm run build
+~~~
+
+The project requires Node 20 or newer. The full build also requires a Rust toolchain and the WebAssembly target when you change the Rust workspace.
+
+## Project structure
+
+~~~text
+src/core/       Core runtime, compiler, directives, and HTTP client
+src/python/     Optional Pyodide integration
+src/wasm/       Optional WebAssembly utilities
+src/router/     Optional routing utilities
+src/socket/     Optional WebSocket client
+src/ui/         Optional UI helpers and stylesheet
+rust/           Rust WebAssembly source
+tests/          Vitest test suite
+docs/           User documentation
+scripts/        Build verification and checksum scripts
+~~~
+
+## Pull requests
+
+1. Create a focused branch.
+2. Add or update tests for behavioral changes.
+3. Run type-check, lint, test, and the relevant build command.
+4. Update the user-facing documentation for API changes.
+5. Describe the motivation, implementation, and verification in the pull request.
+
+Keep unrelated formatting and refactors out of a feature or fix pull request. Do not commit generated local directories such as node_modules, coverage, or Rust target output.
+
+## Coding guidelines
+
+- Use TypeScript for runtime changes.
+- Follow the existing ESLint and formatting configuration.
+- Prefer small public APIs with clear errors and documented constraints.
+- Preserve browser compatibility with the project's configured build target.
+- Treat templates and browser inputs as untrusted at server boundaries.
+
+## Documentation
+
+Update the relevant guide in docs/ and README.md when changing installation, public APIs, directive behavior, build output, or security expectations. Examples must be runnable or clearly labeled as illustrative.
+
+## Releases
+
+Maintainers update the version and [CHANGELOG.md](CHANGELOG.md), run the full build and test suite, publish the package, and tag the corresponding release.

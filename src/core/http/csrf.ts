@@ -50,6 +50,8 @@ const DEFAULT_CSRF_CONFIG: Required<CSRFConfig> = {
 /**
  * CSRF Manager
  */
+export type CSRFHandler = (config: RequestConfig) => Promise<RequestConfig>;
+
 export class CSRFManager {
   private config: Required<CSRFConfig>;
   private token: string = '';
@@ -57,8 +59,9 @@ export class CSRFManager {
 
   constructor(config: CSRFConfig = {}) {
     this.config = { ...DEFAULT_CSRF_CONFIG, ...config };
-    // Initialize token from cookie or memory
-    this.token = this.config.getToken() || (window as any).__fyr_csrf_token || '';
+    const initialToken = this.config.getToken();
+    this.token = typeof initialToken === 'string' ? initialToken : (window as any).__fyr_csrf_token || '';
+    if (initialToken instanceof Promise) initialToken.then(token => this.setToken(token)).catch(() => undefined);
   }
 
   /**
@@ -86,7 +89,7 @@ export class CSRFManager {
    * Get the current CSRF token
    */
   getToken(): string {
-    return this.token || this.config.getToken() || '';
+    return this.token;
   }
 
   /**

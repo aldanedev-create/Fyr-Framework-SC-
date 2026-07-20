@@ -53,7 +53,9 @@ export function cleanupElement(element: Element): void {
  */
 export function cleanupCompiledNode(compiled: CompiledNode): void {
   // Clean up element
-  cleanupElement(compiled.node);
+  if (compiled.node instanceof Element) {
+    cleanupElement(compiled.node);
+  }
 
   // Clean up children
   if (compiled.children) {

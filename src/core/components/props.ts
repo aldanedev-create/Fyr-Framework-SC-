@@ -3,7 +3,7 @@
  * Handles component props validation and parsing
  */
 
-export type PropType = String | Number | Boolean | Object | Array | Function | Symbol;
+export type PropType = StringConstructor | NumberConstructor | BooleanConstructor | ObjectConstructor | ArrayConstructor | FunctionConstructor | SymbolConstructor;
 
 export interface PropDefinition {
   type: PropType | PropType[];

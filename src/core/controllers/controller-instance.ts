@@ -11,7 +11,7 @@ import {
   getKeys,
   createScope,
 } from './controller';
-import { registerInstance, unregisterInstance } from './controller-registry';
+import { getController, registerInstance, unregisterInstance } from './controller-registry';
 import { nextTick } from '../reactivity/scheduler';
 
 import type {

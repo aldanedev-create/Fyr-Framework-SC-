@@ -14,9 +14,10 @@ export type WorkerMessageType = 'run' | 'eval' | 'execute' | 'install' | 'ping' 
  * Worker message
  */
 export interface WorkerMessage {
-  id: string;
+  id?: string;
   type: WorkerMessageType;
-  payload: any;
+  payload?: any;
+  code?: string;
   timeout?: number;
 }
 
@@ -25,6 +26,7 @@ export interface WorkerMessage {
  */
 export interface WorkerResponse {
   id: string;
+  type?: WorkerMessageType | 'ready';
   success: boolean;
   result?: any;
   error?: {
@@ -259,7 +261,7 @@ export class WorkerManager {
       this.worker?.postMessage({
         id,
         type: message.type,
-        payload: message.payload,
+        payload: message.payload ?? { code: message.code },
       });
     });
   }

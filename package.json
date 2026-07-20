@@ -7,28 +7,24 @@
   "module": "dist/fyr.esm.js",
   "unpkg": "dist/fyr.min.js",
   "jsdelivr": "dist/fyr.min.js",
-  "types": "dist/fyr.d.ts",
+  "types": "dist/core/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/core/index.d.ts",
       "import": "./dist/fyr.esm.js",
-      "require": "./dist/fyr.js",
-      "default": "./dist/fyr.min.js",
-      "types": "./dist/fyr.d.ts"
+      "require": "./dist/fyr.js"
     },
     "./python": {
       "import": "./dist/fyr-python.esm.js",
-      "require": "./dist/fyr-python.js",
-      "default": "./dist/fyr-python.min.js"
+      "require": "./dist/fyr-python.js"
     },
     "./wasm": {
       "import": "./dist/fyr-wasm.esm.js",
-      "require": "./dist/fyr-wasm.js",
-      "default": "./dist/fyr-wasm.min.js"
+      "require": "./dist/fyr-wasm.js"
     },
     "./router": {
       "import": "./dist/fyr-router.esm.js",
-      "require": "./dist/fyr-router.js",
-      "default": "./dist/fyr-router.min.js"
+      "require": "./dist/fyr-router.js"
     }
   },
   "files": [
@@ -39,10 +35,11 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "npm run build:core && npm run build:plugins && npm run build:wasm && npm run build:minify",
+    "build": "vite build && vite build --config vite.min.config.ts && tsc -p tsconfig.build.json && npm run build:rust && node scripts/verify-wasm.mjs && node scripts/generate-checksums.mjs",
     "build:core": "vite build",
     "build:plugins": "node scripts/build-plugins.mjs",
-    "build:wasm": "node scripts/build-wasm.mjs",
+    "build:rust": "node scripts/build.mjs",
+    "build:wasm": "npm run build:rust",
     "build:minify": "node scripts/minify.mjs",
     "test": "vitest",
     "test:coverage": "vitest --coverage",

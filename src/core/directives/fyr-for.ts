@@ -8,6 +8,7 @@ import { evaluateExpression } from '../compiler/expression-evaluator';
 import { createEffect } from '../reactivity/effect';
 import { registerCleanup } from '../compiler/cleanup';
 import { scanDOM } from '../compiler/dom-scanner';
+import { getAllDirectives } from './registry';
 
 /**
  * fyr-for directive handler
@@ -52,11 +53,6 @@ export const fyrForDirective: DirectiveHandler = (
   // Track rendered items
   let renderedItems: Map<string | number, { element: HTMLElement; data: any }> = new Map();
   let currentItems: any[] = [];
-
-  // Get directives for child compilation
-  function getAllDirectives(): Map<string, any> {
-    return require('./registry').getAllDirectives();
-  }
 
   // Initial render
   const initialCollection = evaluateExpression(collectionExpression, context);
@@ -178,7 +174,7 @@ export const fyrForDirective: DirectiveHandler = (
         
         // Find position to insert
         // Insert before placeholder or before next item
-        let insertBefore = placeholder;
+        let insertBefore: Node = placeholder;
         for (const [otherKey, otherRendered] of renderedItems) {
           const otherIndex = newKeys.indexOf(String(otherKey));
           if (otherIndex > i) {

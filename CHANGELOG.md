@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Complete README and user documentation for the current 0.1.0 runtime
 - Initial project setup
 - Core reactive engine with Proxy-based state
 - HTML directives: fyr-text, fyr-click, fyr-model, fyr-show, fyr-for

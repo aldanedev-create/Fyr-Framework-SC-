@@ -3,6 +3,8 @@
  * Browser WebAssembly support
  */
 
+import { wasmPlugin } from './wasm-plugin';
+
 export { WasmPlugin, wasmPlugin } from './wasm-plugin';
 export { WasmLoader, wasmLoader, type WasmLoaderOptions } from './wasm-loader';
 export { WasmRegistry, wasmRegistry, type WasmModule, type WasmExports } from './wasm-registry';

@@ -41,7 +41,7 @@ export async function navigateTo(
     // Build full path with query
     let fullPath = path;
     if (options.query) {
-      const queryString = new URLSearchParams(options.query).toString();
+      const queryString = new URLSearchParams(toSearchParams(options.query)).toString();
       if (queryString) {
         fullPath += (fullPath.includes('?') ? '&' : '?') + queryString;
       }
@@ -49,7 +49,7 @@ export async function navigateTo(
 
     const route = await router.navigate(fullPath, {
       replace: options.replace,
-      query: options.query,
+      query: options.query ? toSearchParams(options.query) : undefined,
     });
 
     return {
@@ -78,12 +78,13 @@ export async function navigate(
 
   for (const route of routes) {
     if (route.name === name) {
-      path = route.path;
+      let routePath = route.path;
       for (const [key, value] of Object.entries(params)) {
         if (value !== undefined) {
-          path = path.replace(`:${key}`, value);
+          routePath = routePath.replace(`:${key}`, value);
         }
       }
+      path = routePath;
       break;
     }
   }
@@ -165,4 +166,8 @@ export function generatePath(name: string, params: RouteParams = {}): string | n
     }
   }
   return null;
+}
+
+function toSearchParams(params: RouteParams): Record<string, string> {
+  return Object.fromEntries(Object.entries(params).filter((entry): entry is [string, string] => entry[1] !== undefined));
 }

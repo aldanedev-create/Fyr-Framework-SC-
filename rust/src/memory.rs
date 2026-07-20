@@ -5,17 +5,42 @@
 
 use wasm_bindgen::prelude::*;
 use std::cell::RefCell;
+use std::alloc::Layout;
+
+struct Allocation {
+    pointer: *mut u8,
+    layout: Layout,
+}
 
 /// Memory allocation tracker
 thread_local! {
-    static ALLOCATIONS: RefCell<Vec<*mut u8>> = RefCell::new(Vec::new());
+    static ALLOCATIONS: RefCell<Vec<Allocation>> = RefCell::new(Vec::new());
+}
+
+fn remove_allocation(pointer: *mut u8) -> Option<Layout> {
+    ALLOCATIONS.with(|allocations| {
+        let mut allocations = allocations.borrow_mut();
+        allocations
+            .iter()
+            .position(|allocation| allocation.pointer == pointer)
+            .map(|index| allocations.remove(index).layout)
+    })
+}
+
+fn allocation_capacity(pointer: *const u8) -> Option<usize> {
+    ALLOCATIONS.with(|allocations| {
+        allocations
+            .borrow()
+            .iter()
+            .find(|allocation| allocation.pointer == pointer.cast_mut())
+            .map(|allocation| allocation.layout.size())
+    })
 }
 
 /// Initialize memory management
 #[wasm_bindgen]
 pub fn init_memory() {
     // Set up memory tracking
-    #[cfg(feature = "console_error_panic_hook")]
     console_error_panic_hook::set_once();
 }
 
@@ -23,12 +48,12 @@ pub fn init_memory() {
 /// Returns a pointer to the allocated memory
 #[wasm_bindgen]
 pub fn malloc(size: usize) -> *mut u8 {
-    let layout = std::alloc::Layout::from_size_align(size, 1).unwrap();
+    let layout = Layout::from_size_align(size.max(1), 1).expect("valid byte layout");
     unsafe {
         let ptr = std::alloc::alloc(layout);
         if !ptr.is_null() {
             ALLOCATIONS.with(|allocations| {
-                allocations.borrow_mut().push(ptr);
+                allocations.borrow_mut().push(Allocation { pointer: ptr, layout });
             });
         }
         ptr
@@ -42,19 +67,10 @@ pub fn free(ptr: *mut u8) {
         return;
     }
 
-    // Remove from allocations list
-    ALLOCATIONS.with(|allocations| {
-        let mut borrow = allocations.borrow_mut();
-        if let Some(pos) = borrow.iter().position(|&p| p == ptr) {
-            borrow.remove(pos);
+    if let Some(layout) = remove_allocation(ptr) {
+        unsafe {
+            std::alloc::dealloc(ptr, layout);
         }
-    });
-
-    // Deallocate the memory
-    unsafe {
-        let _ = std::alloc::Layout::from_size_align(1, 1);
-        // Using System allocator directly
-        std::alloc::dealloc(ptr, std::alloc::Layout::from_size_align(1, 1).unwrap());
     }
 }
 
@@ -63,12 +79,11 @@ pub fn free(ptr: *mut u8) {
 pub fn free_all() {
     ALLOCATIONS.with(|allocations| {
         let mut borrow = allocations.borrow_mut();
-        for &ptr in borrow.iter() {
+        for allocation in borrow.drain(..) {
             unsafe {
-                std::alloc::dealloc(ptr, std::alloc::Layout::from_size_align(1, 1).unwrap());
+                std::alloc::dealloc(allocation.pointer, allocation.layout);
             }
         }
-        borrow.clear();
     });
 }
 
@@ -81,7 +96,7 @@ pub fn allocation_count() -> usize {
 /// Write a string to WASM memory at the given pointer
 #[wasm_bindgen]
 pub fn write_string(ptr: *mut u8, value: &str) {
-    if ptr.is_null() {
+    if ptr.is_null() || allocation_capacity(ptr) < Some(value.len() + 1) {
         return;
     }
     let bytes = value.as_bytes();
@@ -98,12 +113,13 @@ pub fn read_string(ptr: *const u8) -> String {
     if ptr.is_null() {
         return String::new();
     }
-    let mut len = 0;
+    let Some(capacity) = allocation_capacity(ptr) else {
+        return String::new();
+    };
     unsafe {
-        while *ptr.add(len) != 0 {
-            len += 1;
-        }
-        let slice = std::slice::from_raw_parts(ptr, len);
+        let slice = std::slice::from_raw_parts(ptr, capacity);
+        let len = slice.iter().position(|byte| *byte == 0).unwrap_or(capacity);
+        let slice = &slice[..len];
         String::from_utf8_lossy(slice).to_string()
     }
 }
@@ -111,7 +127,7 @@ pub fn read_string(ptr: *const u8) -> String {
 /// Write bytes to WASM memory at the given pointer
 #[wasm_bindgen]
 pub fn write_bytes(ptr: *mut u8, data: &[u8]) {
-    if ptr.is_null() {
+    if ptr.is_null() || allocation_capacity(ptr) < Some(data.len()) {
         return;
     }
     unsafe {
@@ -122,7 +138,7 @@ pub fn write_bytes(ptr: *mut u8, data: &[u8]) {
 /// Read bytes from WASM memory at the given pointer
 #[wasm_bindgen]
 pub fn read_bytes(ptr: *const u8, len: usize) -> Vec<u8> {
-    if ptr.is_null() {
+    if ptr.is_null() || allocation_capacity(ptr) < Some(len) {
         return Vec::new();
     }
     unsafe {
@@ -133,7 +149,11 @@ pub fn read_bytes(ptr: *const u8, len: usize) -> Vec<u8> {
 /// Copy memory from one location to another
 #[wasm_bindgen]
 pub fn memcopy(dest: *mut u8, src: *const u8, len: usize) {
-    if dest.is_null() || src.is_null() {
+    if dest.is_null()
+        || src.is_null()
+        || allocation_capacity(dest) < Some(len)
+        || allocation_capacity(src) < Some(len)
+    {
         return;
     }
     unsafe {
@@ -144,7 +164,7 @@ pub fn memcopy(dest: *mut u8, src: *const u8, len: usize) {
 /// Set memory to a value
 #[wasm_bindgen]
 pub fn memset(ptr: *mut u8, value: u8, len: usize) {
-    if ptr.is_null() {
+    if ptr.is_null() || allocation_capacity(ptr) < Some(len) {
         return;
     }
     unsafe {

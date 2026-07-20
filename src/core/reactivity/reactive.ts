@@ -7,10 +7,10 @@ import { activeEffect, getDependencies, track, trigger } from './effect';
 import { scheduleRender } from './scheduler';
 
 /** WeakMap cache for reactive proxies */
-const proxyCache = new WeakMap<object, object>();
+const proxyCache = new Map<object, object>();
 
 /** Tracked keys per target for dependency management */
-export const targetMap = new WeakMap<object, Map<string | symbol, Set<() => void>>>();
+export const targetMap = new Map<object, Map<string | symbol, Set<() => void>>>();
 
 /**
  * Create a reactive proxy for an object

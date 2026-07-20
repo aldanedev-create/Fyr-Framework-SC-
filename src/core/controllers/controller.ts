@@ -10,6 +10,7 @@ import { batch } from '../reactivity/batch';
 import { nextTick } from '../reactivity/scheduler';
 
 import type {
+  AnyFunction,
   FyrController,
   FyrControllerDefinition,
   ReactiveState,
@@ -54,35 +55,26 @@ export function instantiateController(
   // Create reactive state
   const state = reactive(controller.state || {});
 
-  // Create computed values
-  const computedValues: Record<string, any> = {};
-  if (controller.computed) {
-    for (const [key, getter] of Object.entries(controller.computed)) {
-      computedValues[key] = computed(getter.bind({ state, props }));
-    }
-  }
-
-  // Create methods bound to instance
-  const methods: Record<string, Function> = {};
-  if (controller.methods) {
-    for (const [key, method] of Object.entries(controller.methods)) {
-      methods[key] = method.bind(instance);
-    }
-  }
-
-  // Create instance
   const instance: ControllerInstance = {
     name: controller.name,
     state,
     props,
-    methods,
-    computed: computedValues,
+    methods: {},
+    computed: {},
     el,
     parent,
     _isMounted: false,
     _isDestroyed: false,
     _watchers: [],
   };
+
+  // Computed values and methods are bound after the complete instance exists.
+  for (const [key, getter] of Object.entries(controller.computed)) {
+    instance.computed[key] = computed(getter.bind(instance));
+  }
+  for (const [key, method] of Object.entries(controller.methods)) {
+    instance.methods[key] = (method as AnyFunction).bind(instance);
+  }
 
   // Set up watchers
   if (controller.watch) {

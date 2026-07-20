@@ -3,7 +3,7 @@
  * Manages individual WebAssembly instances
  */
 
-import type { WasmModule } from './wasm-registry';
+import type { WasmExports, WasmModule } from './wasm-registry';
 import { WasmError, createWasmError } from './wasm-errors';
 
 /**
@@ -19,6 +19,8 @@ export interface WasmInstanceOptions {
   name: string;
   /** WASM module */
   module: WasmModule;
+  /** Source URL used when the plugin must lazily load this module. */
+  url?: string;
   /** Import object */
   imports?: WebAssembly.Imports;
   /** Enable debug logging */
@@ -36,7 +38,7 @@ export class WasmInstance {
   public exports: WasmExports | null = null;
   public memory: WebAssembly.Memory | null = null;
 
-  private options: Required<WasmInstanceOptions>;
+  private options: WasmInstanceOptions & { imports: WebAssembly.Imports; debug: boolean };
   private instantiatePromise: Promise<void> | null = null;
 
   constructor(options: WasmInstanceOptions) {
@@ -58,7 +60,7 @@ export class WasmInstance {
     }
 
     if (this.state === 'instantiating') {
-      return this.instantiatePromise;
+      return this.instantiatePromise ?? Promise.resolve();
     }
 
     if (this.state === 'destroyed') {
@@ -89,7 +91,7 @@ export class WasmInstance {
       this.exports = this.instance.exports;
 
       // Find memory
-      this.memory = this.findMemory(this.exports);
+      this.memory = this.findMemory(this.exports) ?? null;
 
       // Update state
       this.state = 'ready';
@@ -187,11 +189,12 @@ export class WasmInstance {
    * Get export names
    */
   getExportNames(): string[] {
-    if (!this.exports) {
+    const exports = this.exports;
+    if (!exports) {
       return [];
     }
-    return Object.keys(this.exports).filter(
-      key => typeof this.exports[key] === 'function'
+    return Object.keys(exports).filter(
+      key => typeof exports[key] === 'function'
     );
   }
 
