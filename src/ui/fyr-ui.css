@@ -1,0 +1,605 @@
+/**
+ * Fyr UI CSS
+ * Default styles for toast, modal, dialog, and loading
+ */
+
+/* ==================== Toast ==================== */
+
+.fyr-toast-container {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 10000;
+  max-width: 420px;
+  width: 100%;
+  pointer-events: none;
+}
+
+.fyr-toast-container-top-right {
+  top: 20px;
+  right: 20px;
+}
+
+.fyr-toast-container-top-left {
+  top: 20px;
+  left: 20px;
+}
+
+.fyr-toast-container-top-center {
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.fyr-toast-container-bottom-right {
+  bottom: 20px;
+  right: 20px;
+}
+
+.fyr-toast-container-bottom-left {
+  bottom: 20px;
+  left: 20px;
+}
+
+.fyr-toast-container-bottom-center {
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.fyr-toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: #1a2332;
+  color: #e8eefc;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  border: 1px solid #26324a;
+  pointer-events: auto;
+  animation: fyr-toast-slide-in 0.3s ease-out;
+  transition: all 0.3s ease;
+}
+
+.fyr-toast.fyr-toast-exit {
+  animation: fyr-toast-slide-out 0.3s ease-in forwards;
+}
+
+.fyr-toast-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.fyr-toast-info .fyr-toast-icon {
+  background: #2563eb;
+  color: #fff;
+}
+
+.fyr-toast-success .fyr-toast-icon {
+  background: #16a34a;
+  color: #fff;
+}
+
+.fyr-toast-warning .fyr-toast-icon {
+  background: #d97706;
+  color: #fff;
+}
+
+.fyr-toast-error .fyr-toast-icon {
+  background: #dc2626;
+  color: #fff;
+}
+
+.fyr-toast-loading .fyr-toast-icon {
+  background: transparent;
+  color: #6ee7ff;
+  animation: fyr-toast-spin 1s linear infinite;
+}
+
+.fyr-toast-content {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.fyr-toast-content .fyr-toast-message {
+  display: block;
+}
+
+.fyr-toast-close {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: #91a0bc;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.fyr-toast-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.fyr-toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+}
+
+.fyr-toast-progress-bar {
+  height: 100%;
+  background: #6ee7ff;
+  width: 100%;
+  border-radius: 0 0 12px 12px;
+  transition: width 0.3s linear;
+}
+
+@keyframes fyr-toast-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fyr-toast-slide-out {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+}
+
+@keyframes fyr-toast-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==================== Modal ==================== */
+
+.fyr-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.fyr-modal-overlay.fyr-modal-overlay-enter {
+  opacity: 1;
+}
+
+.fyr-modal {
+  background: #111827;
+  border-radius: 16px;
+  border: 1px solid #26324a;
+  max-width: 100%;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.9) translateY(20px);
+  transition: all 0.3s ease;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+}
+
+.fyr-modal.fyr-modal-enter {
+  transform: scale(1) translateY(0);
+}
+
+/* Modal sizes */
+.fyr-modal-sm {
+  max-width: 400px;
+}
+
+.fyr-modal-md {
+  max-width: 560px;
+}
+
+.fyr-modal-lg {
+  max-width: 720px;
+}
+
+.fyr-modal-xl {
+  max-width: 900px;
+}
+
+.fyr-modal-full {
+  max-width: 95vw;
+  max-height: 95vh;
+}
+
+/* Modal animations */
+.fyr-modal-slide {
+  transform: translateY(40px);
+}
+
+.fyr-modal-slide.fyr-modal-enter {
+  transform: translateY(0);
+}
+
+.fyr-modal-scale {
+  transform: scale(0.8);
+}
+
+.fyr-modal-scale.fyr-modal-enter {
+  transform: scale(1);
+}
+
+.fyr-modal-none {
+  transform: none;
+  opacity: 0;
+}
+
+.fyr-modal-none.fyr-modal-enter {
+  opacity: 1;
+}
+
+.fyr-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid #26324a;
+  flex-shrink: 0;
+}
+
+.fyr-modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #e8eefc;
+  margin: 0;
+}
+
+.fyr-modal-close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: #91a0bc;
+  font-size: 20px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.fyr-modal-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.fyr-modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+  color: #e8eefc;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.fyr-modal-body p {
+  margin: 0 0 12px 0;
+}
+
+.fyr-modal-body p:last-child {
+  margin-bottom: 0;
+}
+
+.fyr-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 24px;
+  border-top: 1px solid #26324a;
+  flex-shrink: 0;
+}
+
+.fyr-modal-btn {
+  padding: 9px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fyr-modal-btn-primary {
+  background: linear-gradient(135deg, #6ee7ff, #7c6cff);
+  color: #06101d;
+}
+
+.fyr-modal-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(110, 231, 255, 0.3);
+}
+
+.fyr-modal-btn-secondary {
+  background: #1f2a40;
+  color: #e8eefc;
+}
+
+.fyr-modal-btn-secondary:hover {
+  background: #2a3a55;
+}
+
+.fyr-modal-btn-danger {
+  background: #dc2626;
+  color: #fff;
+}
+
+.fyr-modal-btn-danger:hover {
+  background: #b91c1c;
+}
+
+.fyr-modal-btn-success {
+  background: #16a34a;
+  color: #fff;
+}
+
+.fyr-modal-btn-success:hover {
+  background: #15803d;
+}
+
+.fyr-modal-btn-warning {
+  background: #d97706;
+  color: #fff;
+}
+
+.fyr-modal-btn-warning:hover {
+  background: #b45309;
+}
+
+.fyr-modal-btn-outline {
+  background: transparent;
+  color: #e8eefc;
+  border: 1px solid #26324a;
+}
+
+.fyr-modal-btn-outline:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.fyr-modal-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* ==================== Dialog ==================== */
+
+.fyr-dialog {
+  max-width: 440px;
+}
+
+.fyr-dialog .fyr-dialog-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0 auto 16px;
+}
+
+.fyr-dialog-icon-info {
+  background: rgba(37, 99, 235, 0.15);
+  color: #3b82f6;
+}
+
+.fyr-dialog-icon-success {
+  background: rgba(22, 163, 74, 0.15);
+  color: #22c55e;
+}
+
+.fyr-dialog-icon-warning {
+  background: rgba(217, 119, 6, 0.15);
+  color: #f59e0b;
+}
+
+.fyr-dialog-icon-error {
+  background: rgba(220, 38, 38, 0.15);
+  color: #ef4444;
+}
+
+.fyr-dialog-icon-question {
+  background: rgba(110, 231, 255, 0.15);
+  color: #6ee7ff;
+}
+
+.fyr-dialog-message {
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #cbd5e1;
+}
+
+.fyr-dialog-input-wrapper {
+  margin-top: 16px;
+}
+
+.fyr-dialog-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #26324a;
+  border-radius: 8px;
+  background: #0b1220;
+  color: #e8eefc;
+  font-size: 14px;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.fyr-dialog-input:focus {
+  outline: none;
+  border-color: #6ee7ff;
+}
+
+.fyr-dialog-input::placeholder {
+  color: #5d6c86;
+}
+
+/* ==================== Loading ==================== */
+
+.fyr-loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  z-index: 9999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.fyr-loading-container.fyr-loading-enter {
+  opacity: 1;
+}
+
+.fyr-loading-container.fyr-loading-exit {
+  opacity: 0;
+}
+
+.fyr-loading-spinner {
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: #6ee7ff;
+  border-radius: 50%;
+  animation: fyr-loading-spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+.fyr-loading-spinner-sm {
+  width: 24px;
+  height: 24px;
+  border-width: 2px;
+}
+
+.fyr-loading-spinner-md {
+  width: 40px;
+  height: 40px;
+  border-width: 3px;
+}
+
+.fyr-loading-spinner-lg {
+  width: 56px;
+  height: 56px;
+  border-width: 4px;
+}
+
+.fyr-loading-spinner-xl {
+  width: 72px;
+  height: 72px;
+  border-width: 5px;
+}
+
+.fyr-loading-text {
+  font-size: 14px;
+  color: #e8eefc;
+  font-weight: 500;
+  text-align: center;
+}
+
+@keyframes fyr-loading-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==================== Responsive ==================== */
+
+@media (max-width: 640px) {
+  .fyr-toast-container {
+    max-width: calc(100vw - 40px);
+  }
+
+  .fyr-toast-container-top-center,
+  .fyr-toast-container-bottom-center {
+    left: 20px;
+    right: 20px;
+    transform: none;
+    max-width: calc(100vw - 40px);
+  }
+
+  .fyr-modal {
+    max-height: 95vh;
+    margin: 10px;
+  }
+
+  .fyr-modal-sm {
+    max-width: 100%;
+  }
+
+  .fyr-modal-md {
+    max-width: 100%;
+  }
+
+  .fyr-modal-lg {
+    max-width: 100%;
+  }
+
+  .fyr-modal-xl {
+    max-width: 100%;
+    max-height: 95vh;
+  }
+
+  .fyr-modal-full {
+    max-width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .fyr-modal-footer {
+    flex-wrap: wrap;
+  }
+
+  .fyr-modal-btn {
+    flex: 1;
+    min-width: 80px;
+  }
+}

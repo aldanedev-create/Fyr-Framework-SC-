@@ -1,0 +1,166 @@
+/**
+ * fyr-transition CSS
+ * Default transition styles
+ */
+
+/* Base transition classes */
+.fyr-transition-wrapper {
+  display: contents;
+}
+
+/* Fade transition */
+.fyr-transition-fade-enter-active {
+  animation: fyr-fade-in var(--fyr-transition-duration, 300ms) var(--fyr-transition-timing, ease) var(--fyr-transition-delay, 0ms) forwards;
+}
+
+.fyr-transition-fade-leave-active {
+  animation: fyr-fade-out var(--fyr-transition-duration, 300ms) var(--fyr-transition-timing, ease) var(--fyr-transition-delay, 0ms) forwards;
+}
+
+@keyframes fyr-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fyr-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Slide transition */
+.fyr-transition-slide-enter-active {
+  animation: fyr-slide-in var(--fyr-transition-duration, 300ms) var(--fyr-transition-timing, ease) var(--fyr-transition-delay, 0ms) forwards;
+}
+
+.fyr-transition-slide-leave-active {
+  animation: fyr-slide-out var(--fyr-transition-duration, 300ms) var(--fyr-transition-timing, ease) var(--fyr-transition-delay, 0ms) forwards;
+}
+
+@keyframes fyr-slide-in {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fyr-slide-out {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
+
+/* Scale transition */
+.fyr-transition-scale-enter-active {
+  animation: fyr-scale-in var(--fyr-transition-duration, 300ms) var(--fyr-transition-timing, ease) var(--fyr-transition-delay, 0ms) forwards;
+}
+
+.fyr-transition-scale-leave-active {
+  animation: fyr-scale-out var(--fyr-transition-duration, 300ms) var(--fyr-transition-timing, ease) var(--fyr-transition-delay, 0ms) forwards;
+}
+
+@keyframes fyr-scale-in {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fyr-scale-out {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* Bounce transition */
+.fyr-transition-bounce-enter-active {
+  animation: fyr-bounce-in var(--fyr-transition-duration, 500ms) cubic-bezier(0.68, -0.55, 0.265, 1.55) var(--fyr-transition-delay, 0ms) forwards;
+}
+
+.fyr-transition-bounce-leave-active {
+  animation: fyr-bounce-out var(--fyr-transition-duration, 300ms) var(--fyr-transition-timing, ease) var(--fyr-transition-delay, 0ms) forwards;
+}
+
+@keyframes fyr-bounce-in {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes fyr-bounce-out {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+}
+
+/* Flip transition */
+.fyr-transition-flip-enter-active {
+  animation: fyr-flip-in var(--fyr-transition-duration, 400ms) var(--fyr-transition-timing, ease) var(--fyr-transition-delay, 0ms) forwards;
+}
+
+.fyr-transition-flip-leave-active {
+  animation: fyr-flip-out var(--fyr-transition-duration, 400ms) var(--fyr-transition-timing, ease) var(--fyr-transition-delay, 0ms) forwards;
+}
+
+@keyframes fyr-flip-in {
+  from {
+    transform: perspective(400px) rotateX(90deg);
+    opacity: 0;
+  }
+  to {
+    transform: perspective(400px) rotateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fyr-flip-out {
+  from {
+    transform: perspective(400px) rotateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: perspective(400px) rotateX(-90deg);
+    opacity: 0;
+  }
+}

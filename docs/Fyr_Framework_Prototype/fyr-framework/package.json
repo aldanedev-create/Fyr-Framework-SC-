@@ -1,0 +1,16 @@
+{
+  "name": "fyr-framework",
+  "version": "0.1.0",
+  "description": "CDN-first HTML framework with Python and Rust WebAssembly browser plugins",
+  "type": "module",
+  "main": "dist/fyr.js",
+  "unpkg": "dist/fyr.min.js",
+  "jsdelivr": "dist/fyr.min.js",
+  "files": ["dist", "README.md", "LICENSE"],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "license": "MIT",
+  "keywords": ["cdn", "framework", "html", "python", "rust", "webassembly", "reactive"]
+}

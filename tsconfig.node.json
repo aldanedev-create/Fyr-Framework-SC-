@@ -1,0 +1,23 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "noEmit": false,
+    "outDir": "dist/node",
+    "allowJs": true,
+    "types": ["node"]
+  },
+  "include": [
+    "scripts/**/*.ts",
+    "scripts/**/*.mjs",
+    "vite.config.ts",
+    "vitest.config.ts",
+    "playwright.config.ts"
+  ],
+  "exclude": [
+    "packages/**/*",
+    "examples/**/*",
+    "tests/**/*"
+  ]
+}

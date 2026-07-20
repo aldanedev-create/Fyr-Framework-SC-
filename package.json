@@ -1,0 +1,109 @@
+{
+  "name": "fyr-framework",
+  "version": "0.1.0",
+  "description": "CDN-first HTML framework with Python and Rust WebAssembly browser plugins",
+  "type": "module",
+  "main": "dist/fyr.js",
+  "module": "dist/fyr.esm.js",
+  "unpkg": "dist/fyr.min.js",
+  "jsdelivr": "dist/fyr.min.js",
+  "types": "dist/fyr.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/fyr.esm.js",
+      "require": "./dist/fyr.js",
+      "default": "./dist/fyr.min.js",
+      "types": "./dist/fyr.d.ts"
+    },
+    "./python": {
+      "import": "./dist/fyr-python.esm.js",
+      "require": "./dist/fyr-python.js",
+      "default": "./dist/fyr-python.min.js"
+    },
+    "./wasm": {
+      "import": "./dist/fyr-wasm.esm.js",
+      "require": "./dist/fyr-wasm.js",
+      "default": "./dist/fyr-wasm.min.js"
+    },
+    "./router": {
+      "import": "./dist/fyr-router.esm.js",
+      "require": "./dist/fyr-router.js",
+      "default": "./dist/fyr-router.min.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run build:core && npm run build:plugins && npm run build:wasm && npm run build:minify",
+    "build:core": "vite build",
+    "build:plugins": "node scripts/build-plugins.mjs",
+    "build:wasm": "node scripts/build-wasm.mjs",
+    "build:minify": "node scripts/minify.mjs",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "test:browser": "playwright test",
+    "test:ui": "vitest --ui",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write .",
+    "prepublishOnly": "npm run build",
+    "release": "npm run build && npm test && npm publish",
+    "clean": "rm -rf dist node_modules coverage",
+    "prepare": "husky"
+  },
+  "keywords": [
+    "framework",
+    "reactive",
+    "cdn",
+    "html",
+    "javascript",
+    "python",
+    "rust",
+    "webassembly",
+    "frontend",
+    "zero-config",
+    "no-build"
+  ],
+  "author": "Fyr Framework Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fyr-framework/fyr.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fyr-framework/fyr/issues"
+  },
+  "homepage": "https://github.com/fyr-framework/fyr#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.53.0",
+    "@types/node": "^22.14.0",
+    "@typescript-eslint/eslint-plugin": "^8.28.0",
+    "@typescript-eslint/parser": "^8.28.0",
+    "@vitest/coverage-v8": "^3.0.9",
+    "@vitest/ui": "^3.0.9",
+    "eslint": "^9.23.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-unicorn": "^57.0.0",
+    "husky": "^9.1.7",
+    "jsdom": "^26.0.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.5",
+    "vite-plugin-dts": "^4.5.3",
+    "vitest": "^3.0.9"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "npm@11.0.0",
+  "volta": {
+    "node": "22.14.0",
+    "npm": "11.0.0"
+  }
+}

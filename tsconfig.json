@@ -1,0 +1,64 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable", "WebWorker"],
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "exactOptionalPropertyTypes": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "types": ["vite/client", "node", "vitest/globals"],
+    "baseUrl": ".",
+    "paths": {
+      "@fyr/core/*": ["packages/core/src/*"],
+      "@fyr/core": ["packages/core/src/index.ts"],
+      "@fyr/python/*": ["packages/python/src/*"],
+      "@fyr/python": ["packages/python/src/index.ts"],
+      "@fyr/wasm/*": ["packages/wasm/src/*"],
+      "@fyr/wasm": ["packages/wasm/src/index.ts"],
+      "@fyr/router/*": ["packages/router/src/*"],
+      "@fyr/router": ["packages/router/src/index.ts"],
+      "@fyr/test-utils": ["tests/utils/index.ts"]
+    }
+  },
+  "include": [
+    "packages/**/*.ts",
+    "packages/**/*.tsx",
+    "packages/**/*.js",
+    "packages/**/*.mjs",
+    "tests/**/*.ts",
+    "tests/**/*.tsx",
+    "examples/**/*.ts",
+    "examples/**/*.js",
+    "scripts/**/*.mjs",
+    "vite.config.ts",
+    "vitest.config.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "coverage",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/__tests__/**"
+  ],
+  "references": [
+    { "path": "./tsconfig.node.json" }
+  ]
+}

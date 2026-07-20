@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Fyr Production Dashboard</title>
+  <link rel="stylesheet" href="/static/app.css">
+  <script defer src="/fyr/fyr.js"></script>
+  <script defer src="/fyr/fyr-wasm.js"></script>
+  <script defer src="/fyr/fyr-python.js"></script>
+  <script defer src="/static/app.js"></script>
+</head>
+<body>
+<div fyr-app="dashboard" fyr-controller="dashboard">
+  <section class="auth-shell" fyr-show="!authenticated">
+    <form class="auth-card" fyr-submit="login()">
+      <div class="brand"><span class="brand-mark">F</span><div><strong>Fyr</strong><small>CDN-first full stack</small></div></div>
+      <h1>Welcome back</h1><p>Sign in to the working production-style example.</p>
+      <label>Email<input type="email" fyr-model="credentials.email" required></label>
+      <label>Password<input type="password" fyr-model="credentials.password" required minlength="8"></label>
+      <button class="primary" fyr-bind:disabled="busy">Sign in</button>
+      <small class="hint">admin@fyr.dev / Admin123!</small>
+    </form>
+  </section>
+
+  <div class="app-shell" fyr-show="authenticated">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">F</span><div><strong>Fyr</strong><small>Control Center</small></div></div>
+      <nav><a class="active">Overview</a><a>Projects</a><a>Runtime</a><a>Security</a></nav>
+      <button class="ghost" fyr-click="logout()">Sign out</button>
+    </aside>
+    <main>
+      <header><div><p class="eyebrow">SYSTEM OVERVIEW</p><h1>Build fast. Ship safely.</h1></div><div class="user"><span fyr-text="user.name"></span><b fyr-text="user.role"></b></div></header>
+      <section class="metrics">
+        <article><span>Tasks</span><strong fyr-text="stats.tasks"></strong></article>
+        <article><span>Completed</span><strong fyr-text="stats.completed"></strong></article>
+        <article><span>Users</span><strong fyr-text="stats.users"></strong></article>
+        <article><span>Runtime</span><strong class="runtime" fyr-text="stats.runtime"></strong></article>
+      </section>
+      <section class="grid">
+        <article class="panel tasks-panel">
+          <div class="panel-head"><div><p class="eyebrow">LIVE DATA</p><h2>Application tasks</h2></div><button class="primary" fyr-click="showComposer = !showComposer">New task</button></div>
+          <form class="composer" fyr-show="showComposer" fyr-submit="createTask()">
+            <input placeholder="Task title" fyr-model="draft.title" required minlength="2">
+            <select fyr-model="draft.priority"><option>low</option><option>medium</option><option>high</option></select>
+            <button class="primary">Create</button>
+          </form>
+          <div class="task-list">
+            <template fyr-for="task in tasks">
+              <div class="task-row">
+                <span class="priority" fyr-class="{'high': task.priority === 'high', 'medium': task.priority === 'medium'}"></span>
+                <div><strong fyr-text="task.title"></strong><small fyr-text="task.description || 'No description' "></small></div>
+                <select fyr-on:change="setStatus(task.id, $event.target.value)">
+                  <option value="backlog">Backlog</option><option value="active">Active</option><option value="done">Done</option>
+                </select>
+                <button class="icon" fyr-click="removeTask(task.id)">×</button>
+              </div>
+            </template>
+          </div>
+        </article>
+        <article class="panel runtime-panel">
+          <p class="eyebrow">BROWSER RUNTIMES</p><h2>Python + Rust via CDN</h2>
+          <div class="runtime-card"><strong>Rust WebAssembly</strong><p>Loads a real `.wasm` module and calls an exported function.</p><div class="inline"><input type="number" fyr-model="wasm.left"><input type="number" fyr-model="wasm.right"><button fyr-click="runWasm()">Add</button></div><output fyr-text="wasm.result"></output></div>
+          <div class="runtime-card"><strong>Python / Pyodide</strong><p>Lazy-loads Python only when requested.</p><div class="inline"><input type="number" fyr-model="python.number"><button fyr-click="runPython()">Square</button></div><output fyr-text="python.result"></output></div>
+        </article>
+      </section>
+    </main>
+  </div>
+</div>
+</body>
+</html>

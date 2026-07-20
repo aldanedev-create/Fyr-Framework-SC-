@@ -1,0 +1,153 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+.yarn/
+.npm/
+
+# Build outputs
+dist/
+build/
+coverage/
+.nyc_output/
+
+# TypeScript
+*.tsbuildinfo
+*.d.ts.map
+
+# Environment files
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Testing
+coverage/
+.nyc_output/
+test-results/
+playwright-report/
+test-report.html
+
+# Temp files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Python (for examples)
+examples/*/__pycache__/
+examples/*/*.pyc
+examples/*/.venv/
+examples/*/venv/
+examples/*/env/
+examples/*/ENV/
+examples/*/dist/
+examples/*/build/
+examples/*/*.egg-info/
+examples/*/.pytest_cache/
+examples/*/.mypy_cache/
+examples/*/.ruff_cache/
+
+# Rust (for WASM engine)
+rust-engine/target/
+rust-engine/Cargo.lock
+rust-engine/*.wasm
+rust-engine/pkg/
+
+# SQLite databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Deployment
+*.pid
+*.seed
+*.pid.lock
+
+# CDN / Package locks
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Generated files
+*.min.js
+*.min.css
+*.d.ts
+*.map
+
+# IDE specific
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Documentation build
+docs/_build/
+docs/api/
+site/
+
+# Coverage directories
+coverage/
+.nyc_output/
+
+# System files
+.DS_Store
+Thumbs.db
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Archive files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+
+# Secret files
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+*.jks
+
+# MCP / Local dev
+.mcp/
+.cursor/
+.lighthouseci/
+
+# Storybook
+storybook-static/
+
+# Stats
+stats.json
