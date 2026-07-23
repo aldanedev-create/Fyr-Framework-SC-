@@ -1,6 +1,6 @@
 # Contributing to Fyr
 
-Thanks for helping improve Fyr. This project is a 0.x prototype, so contributions that improve correctness, tests, documentation, accessibility, and security are especially valuable.
+Thanks for helping improve Fyr. This project is a 1.2 ask for help to improve, so contributions that improve correctness, tests, documentation, accessibility, and security are especially valuable.
 
 ## Before you start
 
